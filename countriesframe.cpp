@@ -1,5 +1,8 @@
 #include "countriesframe.h"
 #include "ui_countriesframe.h"
+#include "buildingdelegate.h"
+
+#include <QCheckBox>
 
 CountriesFrame::CountriesFrame(QWidget *parent) :
     QFrame(parent),
@@ -18,4 +21,6 @@ void CountriesFrame::init()
 {
     countriesTableModel = new CountriesTableModel(this);
     ui->tableView->setModel(countriesTableModel);
+
+    ui->tableView->setItemDelegateForColumn((int)CountriesTableModel::Columns::Building, new BuildingDelegate(ui->tableView));
 }

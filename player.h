@@ -13,9 +13,10 @@ public:
 
     QColor color;
     QString name;
-    int income;
-    int bank;
-    int blockadesCount;
+    int income = 0;
+    int bank = 0;
+    int resources = 0;
+    int blockadesCount = 0;
 };
 
 #endif // PLAYER_H

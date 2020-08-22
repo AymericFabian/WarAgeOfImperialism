@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    buildingdelegate.cpp \
     countriesframe.cpp \
     countriestablemodel.cpp \
     country.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
     world.cpp
 
 HEADERS += \
+    buildingdelegate.h \
     countriesframe.h \
     countriestablemodel.h \
     country.h \

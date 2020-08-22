@@ -6,6 +6,8 @@
 #include <QBrush>
 #include <QFont>
 
+QList<QString> CountriesTableModel::columnNames = { "Continent", "Player", "Building", "School", "Fort", "Resources" };
+
 CountriesTableModel::CountriesTableModel(QObject *parent) : QAbstractTableModel(parent)
 {
 
@@ -18,7 +20,7 @@ int CountriesTableModel::rowCount(const QModelIndex & /*parent*/) const
 
 int CountriesTableModel::columnCount(const QModelIndex & /*parent*/) const
 {
-    return 5;
+    return (int)Columns::Resource + 1;
 }
 
 QVariant CountriesTableModel::headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const
@@ -27,20 +29,7 @@ QVariant CountriesTableModel::headerData(int section, Qt::Orientation orientatio
     case Qt::DisplayRole:
         if(orientation == Qt::Orientation::Horizontal)
         {
-            switch(section){
-            case (int)Columns::Continent:
-                return "Continent";
-            case (int)Columns::Player:
-                return "Player";
-            case (int)Columns::Building:
-                return "Building";
-            case (int)Columns::School:
-                return "School";
-            case (int)Columns::Fort:
-                return "Fort";
-            case (int)Columns::Resource:
-                return "Resource";
-            }
+            return columnNames.at(section);
         }
         else if(orientation == Qt::Orientation::Vertical)
         {
@@ -56,22 +45,19 @@ QVariant CountriesTableModel::data(const QModelIndex &index, int role) const
     int row = index.row();
     int col = index.column();
 
+    Country& country = World::GetInstance()->countries[row];
+
     switch (role) {
     case Qt::DisplayRole:
         switch(col){
         case (int)Columns::Continent:
-            return Country::getContinentName(World::GetInstance()->countries.at(row).getContinent());
+            return Country::getContinentName(country.getContinent());
         case (int)Columns::Player:
-            return World::GetInstance()->countries.at(row).getPlayer()->name;
+            return country.getPlayer()->name;
         case (int)Columns::Building:
-            //return World::GetInstance()->countries.at(row).getBuildingPrim().;
-            return "";
-        case (int)Columns::School:
-            return "";
-        case (int)Columns::Fort:
-            return "";
+            return Country::getBuildingName(country.getBuildingPrim());
         case (int)Columns::Resource:
-            return World::GetInstance()->countries.at(row).getResource();
+            return country.getResource();
         }
     case Qt::FontRole:
 //        if (row == 0 && col == 0) {
@@ -82,18 +68,64 @@ QVariant CountriesTableModel::data(const QModelIndex &index, int role) const
         break;
     case Qt::BackgroundRole:
         if (col == (int)Columns::Player)
-            return QBrush(World::GetInstance()->countries.at(row).getPlayer()->color);
+            return QBrush(country.getPlayer()->color);
         else
-            return QBrush(World::GetInstance()->countries.at(row).getColor());
+            return QBrush(country.getColor());
         break;
     case Qt::TextAlignmentRole:
-//        if (row == 1 && col == 1)
-//            return Qt::AlignRight + Qt::AlignVCenter;
+        //return Qt::AlignCenter;
         break;
     case Qt::CheckStateRole:
-//        if (row == 1 && col == 0)
-//            return Qt::Checked;
+        if (col == (int)Columns::Fort)
+            return country.hasFort() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked;
+        if (col == (int)Columns::School)
+            return country.hasSchool() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked;
         break;
     }
     return QVariant();
+}
+
+Qt::ItemFlags CountriesTableModel::flags(const QModelIndex &index) const
+{
+    Qt::ItemFlags flags = QAbstractTableModel::flags(index);
+    if (index.column() == (int)Columns::Player
+            || index.column() == (int)Columns::Resource
+            || index.column() == (int)Columns::Building)
+        flags |= Qt::ItemIsEditable;
+    if (index.column() == (int)Columns::School
+            || index.column() == (int)Columns::Fort)
+        flags |= Qt::ItemIsUserCheckable;
+    return flags;
+}
+
+bool CountriesTableModel::setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole)
+{
+    Country& country = World::GetInstance()->countries[index.row()];
+
+    if (role == Qt::EditRole)
+    {
+        switch(index.column()){
+        case (int)Columns::Player:
+            country.setPlayer(World::GetInstance()->players[value.toInt()]);
+            return true;
+        case (int)Columns::Building:
+            country.setBuilding(Country::getBuildingType(value.toString()));
+            return true;
+        case (int)Columns::Resource:
+            country.setResource(value.toInt());
+            return true;
+        }
+    }
+    else if (role == Qt::CheckStateRole)
+    {
+        switch(index.column()){
+        case (int)Columns::Fort:
+            country.setFort(!country.hasFort());
+            return true;
+        case (int)Columns::School:
+            country.setSchool(!country.hasSchool());
+            return true;
+        }
+    }
+    return false;
 }

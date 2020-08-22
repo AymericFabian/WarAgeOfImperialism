@@ -7,7 +7,6 @@
 class Player;
 
 enum class BuildingPrimary { None, City, Factory, Port, Railroad };
-enum class BuildingSecondary { None, School, Fort };
 enum class Continent { Europe, CenterAsia, EastAsia, Oceania, MiddleEast, Africa };
 
 class Country
@@ -17,14 +16,22 @@ public:
     QList<Country*> neighbors;
 
     Continent getContinent() const {return continent;}
-    const QString getName() const {return name;}
     void setPlayer(Player* newPlayer);
+    void setFort(bool fort) {this->fort = fort;}
+    void setSchool(bool school) {this->school = school;}
+    void setResource(int resource) {this->resource = resource;}
+    void setBuilding(BuildingPrimary building) {this->buildingPrim = building;}
+
+    bool hasSchool() {return school;}
+    bool hasFort() {return fort;}
+    const QColor getColor() const;
+    const QString getName() const {return name;}
     const Player* getPlayer() const {return player;}
     const BuildingPrimary& getBuildingPrim() const {return buildingPrim;}
-    const BuildingSecondary& getBuildingSec() const {return buildingSec;}
     int getResource() const {return resource;}
-    const QColor getColor() const;
 
+    static BuildingPrimary getBuildingType(QString build);
+    static QString getBuildingName(BuildingPrimary build);
     static QString getContinentName(Continent cont);
 
 private:
@@ -33,8 +40,10 @@ private:
     Player* player = nullptr;
     int resource = 0;
     BuildingPrimary buildingPrim = BuildingPrimary::None;
-    BuildingSecondary buildingSec = BuildingSecondary::None;
+    bool school = false;
+    bool fort = false;
 
+    static QList<QString> buildingNames;
     static QList<QString> continentNames;
 };
 

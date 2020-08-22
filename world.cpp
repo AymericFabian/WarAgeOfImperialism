@@ -144,7 +144,12 @@ World::World()
               << *morocco << *algeria << *tripoli << *egypt << *palestine << *ottoman << *mesopotamia << *persia << *arabia
               << *mauritania << *westAfrica << *nigeria << *eqAfrica << *sudan << *abyssinia << *kongo << *kenya << *angola << *tanganikya << *mozambique << *natu << *madagascar;
 
-    std::sort(countries.begin(), countries.end(), [](const Country& c1, const Country& c2) { return c1.getName() < c2.getName(); });
+    std::sort(countries.begin(), countries.end(), [](const Country& c1, const Country& c2) {
+        QString cont1 = Country::getContinentName(c1.getContinent());
+        QString cont2 = Country::getContinentName(c2.getContinent());
+        if(cont1 != cont2) return cont1 < cont2;
+        else return c1.getName() < c2.getName();
+    });
 
 
     Player* native = new Player(QColor::fromRgb(255,255,220), "Natives");

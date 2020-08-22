@@ -3,10 +3,21 @@
 #include "world.h"
 #include <QDebug>
 
+QList<QString> Country::buildingNames = {"None", "City", "Factory", "Port", "Railroad"};
 QList<QString> Country::continentNames = {"Europe", "Center Asia", "Eastern Asia", "Oceania", "Middle East", "Africa"};
 
 Country::Country(QString name, Continent cont) : name(name), continent(cont)
 {
+}
+
+BuildingPrimary Country::getBuildingType(QString build)
+{
+    return (BuildingPrimary) buildingNames.indexOf(build);
+}
+
+QString Country::getBuildingName(BuildingPrimary build)
+{
+    return buildingNames[(int)build];
 }
 
 QString Country::getContinentName(Continent cont)
