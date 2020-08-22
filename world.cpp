@@ -1,78 +1,89 @@
 #include "world.h"
 #include "player.h"
 
+#include <QDebug>
+
 World* World::instance = nullptr;
 
 World::World()
 {
-    Country* gb = new Country("Great Britain", Continent::Europe);
-    Country* fr = new Country("France", Continent::Europe);
-    Country* spain = new Country("Spain", Continent::Europe);
-    Country* ger = new Country("Germany", Continent::Europe);
-    Country* it = new Country("Italy", Continent::Europe);
-    Country* prussia = new Country("Prussia", Continent::Europe);
-    Country* hun = new Country("Austria Hungary", Continent::Europe);
-    Country* balk = new Country("The Balkans", Continent::Europe);
-    Country* lithuana = new Country("Lithuana", Continent::Europe);
-    Country* scand = new Country("Scandinavia", Continent::Europe);
-    Country* ukr = new Country("Ukraine", Continent::Europe);
-    Country* cauca = new Country("Caucasus", Continent::Europe);
-    Country* ru = new Country("Russia", Continent::Europe);
+    Player* native = new Player(QColor::fromRgb(255,255,220), "Natives");
+    Player* red = new Player(QColor::fromRgb(238,17,17), "Red");
+    Player* green = new Player(QColor::fromRgb(0,153,0), "Green");
+    Player* blue = new Player(QColor::fromRgb(0,0,204), "Blue");
+    Player* yellow = new Player(QColor::fromRgb(255,240,15), "Yellow");
+    Player* purple = new Player(QColor::fromRgb(153,0,204), "Purple");
+    Player* grey = new Player(QColor::fromRgb(190,190,190), "Grey");
 
-    Country* transUral = new Country("Trans-Ural", Continent::CenterAsia);
-    Country* turkestan = new Country("Turkestan", Continent::CenterAsia);
-    Country* afghanistan = new Country("Afghanistan", Continent::CenterAsia);
-    Country* kazakhstan = new Country("Kazakhstan", Continent::CenterAsia);
-    Country* india = new Country("India", Continent::CenterAsia);
-    Country* siberia = new Country("Siberia", Continent::CenterAsia);
-    Country* kashmir = new Country("Kashmir", Continent::CenterAsia);
-    Country* tibet = new Country("Tibet", Continent::CenterAsia);
-    Country* bengal = new Country("Bengal", Continent::CenterAsia);
+    players << native << red << green << blue << yellow << purple << grey;
+    Country* gb = new Country("Great Britain", Continent::Europe, native);
+    Country* fr = new Country("France", Continent::Europe, native);
+    Country* spain = new Country("Spain", Continent::Europe, native);
+    Country* ger = new Country("Germany", Continent::Europe, native);
+    Country* it = new Country("Italy", Continent::Europe, native);
+    Country* prussia = new Country("Prussia", Continent::Europe, native);
+    Country* hun = new Country("Austria Hungary", Continent::Europe, native);
+    Country* balk = new Country("The Balkans", Continent::Europe, native);
+    Country* lithuana = new Country("Lithuana", Continent::Europe, native);
+    Country* scand = new Country("Scandinavia", Continent::Europe, native);
+    Country* ukr = new Country("Ukraine", Continent::Europe, native);
+    Country* cauca = new Country("Caucasus", Continent::Europe, native);
+    Country* ru = new Country("Russia", Continent::Europe, native);
 
-    Country* yakut = new Country("Yakut", Continent::EastAsia);
-    Country* kamchatka = new Country("Kamchatka", Continent::EastAsia);
-    Country* buryat = new Country("Buryat", Continent::EastAsia);
-    Country* manchuria = new Country("Manchuria", Continent::EastAsia);
-    Country* mongolia = new Country("Mongolia", Continent::EastAsia);
-    Country* korea = new Country("Korea", Continent::EastAsia);
-    Country* japan = new Country("Japan", Continent::EastAsia);
-    Country* china = new Country("China", Continent::EastAsia);
-    Country* siam = new Country("Siam", Continent::EastAsia);
-    Country* annam = new Country("Annam", Continent::EastAsia);
+    Country* transUral = new Country("Trans-Ural", Continent::CenterAsia, native);
+    Country* turkestan = new Country("Turkestan", Continent::CenterAsia, native);
+    Country* afghanistan = new Country("Afghanistan", Continent::CenterAsia, native);
+    Country* kazakhstan = new Country("Kazakhstan", Continent::CenterAsia, native);
+    Country* india = new Country("India", Continent::CenterAsia, native);
+    Country* siberia = new Country("Siberia", Continent::CenterAsia, native);
+    Country* kashmir = new Country("Kashmir", Continent::CenterAsia, native);
+    Country* tibet = new Country("Tibet", Continent::CenterAsia, native);
+    Country* bengal = new Country("Bengal", Continent::CenterAsia, native);
 
-    Country* philippines = new Country("Philippines", Continent::Oceania);
-    Country* sumatra = new Country("Sumatra", Continent::Oceania);
-    Country* borneo = new Country("Borneo", Continent::Oceania);
-    Country* newGuinea = new Country("New Guinea", Continent::Oceania);
-    Country* westAus = new Country("Western Australia", Continent::Oceania);
-    Country* northTerr = new Country("Northern Territory", Continent::Oceania);
-    Country* southAus = new Country("South Australia", Continent::Oceania);
-    Country* queensland = new Country("Queensland", Continent::Oceania);
-    Country* newSouthWales = new Country("New South Wales", Continent::Oceania);
+    Country* yakut = new Country("Yakut", Continent::EastAsia, native);
+    Country* kamchatka = new Country("Kamchatka", Continent::EastAsia, native);
+    Country* buryat = new Country("Buryat", Continent::EastAsia, native);
+    Country* manchuria = new Country("Manchuria", Continent::EastAsia, native);
+    Country* mongolia = new Country("Mongolia", Continent::EastAsia, native);
+    Country* korea = new Country("Korea", Continent::EastAsia, native);
+    Country* japan = new Country("Japan", Continent::EastAsia, native);
+    Country* china = new Country("China", Continent::EastAsia, native);
+    Country* siam = new Country("Siam", Continent::EastAsia, native);
+    Country* annam = new Country("Annam", Continent::EastAsia, native);
 
-    Country* morocco = new Country("Morocco", Continent::MiddleEast);
-    Country* algeria = new Country("Algeria", Continent::MiddleEast);
-    Country* tripoli = new Country("Tripoli", Continent::MiddleEast);
-    Country* egypt = new Country("Egypt", Continent::MiddleEast);
-    Country* palestine = new Country("Palestine", Continent::MiddleEast);
-    Country* ottoman = new Country("Ottoman", Continent::MiddleEast);
-    Country* arabia = new Country("Arabia", Continent::MiddleEast);
-    Country* mesopotamia = new Country("Mesopotamia", Continent::MiddleEast);
-    Country* persia = new Country("Persia", Continent::MiddleEast);
+    Country* philippines = new Country("Philippines", Continent::Oceania, native);
+    Country* sumatra = new Country("Sumatra", Continent::Oceania, native);
+    Country* borneo = new Country("Borneo", Continent::Oceania, native);
+    Country* newGuinea = new Country("New Guinea", Continent::Oceania, native);
+    Country* westAus = new Country("Western Australia", Continent::Oceania, native);
+    Country* northTerr = new Country("Northern Territory", Continent::Oceania, native);
+    Country* southAus = new Country("South Australia", Continent::Oceania, native);
+    Country* queensland = new Country("Queensland", Continent::Oceania, native);
+    Country* newSouthWales = new Country("New South Wales", Continent::Oceania, native);
 
-    Country* mauritania = new Country("Mauritania", Continent::Africa);
-    Country* westAfrica = new Country("West Africa", Continent::Africa);
-    Country* eqAfrica = new Country("Equatorial Africa", Continent::Africa);
-    Country* sudan = new Country("Sudan", Continent::Africa);
-    Country* nigeria = new Country("Nigeria", Continent::Africa);
-    Country* kongo = new Country("Kongo", Continent::Africa);
-    Country* abyssinia = new Country("Abyssinia", Continent::Africa);
-    Country* kenya = new Country("Kenya", Continent::Africa);
-    Country* angola = new Country("Angola", Continent::Africa);
-    Country* natu = new Country("Natu", Continent::Africa);
-    Country* tanganikya = new Country("Tanganikya", Continent::Africa);
-    Country* mozambique = new Country("Mozambique", Continent::Africa);
-    Country* madagascar = new Country("Madagascar", Continent::Africa);
+    Country* morocco = new Country("Morocco", Continent::MiddleEast, native);
+    Country* algeria = new Country("Algeria", Continent::MiddleEast, native);
+    Country* tripoli = new Country("Tripoli", Continent::MiddleEast, native);
+    Country* egypt = new Country("Egypt", Continent::MiddleEast, native);
+    Country* palestine = new Country("Palestine", Continent::MiddleEast, native);
+    Country* ottoman = new Country("Ottoman", Continent::MiddleEast, native);
+    Country* arabia = new Country("Arabia", Continent::MiddleEast, native);
+    Country* mesopotamia = new Country("Mesopotamia", Continent::MiddleEast, native);
+    Country* persia = new Country("Persia", Continent::MiddleEast, native);
+
+    Country* mauritania = new Country("Mauritania", Continent::Africa, native);
+    Country* westAfrica = new Country("West Africa", Continent::Africa, native);
+    Country* eqAfrica = new Country("Equatorial Africa", Continent::Africa, native);
+    Country* sudan = new Country("Sudan", Continent::Africa, native);
+    Country* nigeria = new Country("Nigeria", Continent::Africa, native);
+    Country* kongo = new Country("Kongo", Continent::Africa, native);
+    Country* abyssinia = new Country("Abyssinia", Continent::Africa, native);
+    Country* kenya = new Country("Kenya", Continent::Africa, native);
+    Country* angola = new Country("Angola", Continent::Africa, native);
+    Country* natu = new Country("Natu", Continent::Africa, native);
+    Country* tanganikya = new Country("Tanganikya", Continent::Africa, native);
+    Country* mozambique = new Country("Mozambique", Continent::Africa, native);
+    Country* madagascar = new Country("Madagascar", Continent::Africa, native);
 
     fr->neighbors << spain << ger << it;
     spain->neighbors << fr;
@@ -150,20 +161,6 @@ World::World()
         if(cont1 != cont2) return cont1 < cont2;
         else return c1.getName() < c2.getName();
     });
-
-
-    Player* native = new Player(QColor::fromRgb(255,255,220), "Natives");
-    Player* red = new Player(QColor::fromRgb(238,17,17), "Red");
-    Player* green = new Player(QColor::fromRgb(0,153,0), "Green");
-    Player* blue = new Player(QColor::fromRgb(0,0,204), "Blue");
-    Player* yellow = new Player(QColor::fromRgb(255,240,15), "Yellow");
-    Player* purple = new Player(QColor::fromRgb(153,0,204), "Purple");
-    Player* grey = new Player(QColor::fromRgb(190,190,190), "Grey");
-
-    players << native << red << green << blue << yellow << purple << grey;
-
-    for(Country& c : countries) c.setPlayer(players.at(0));
-
 }
 
 World *World::GetInstance()
@@ -172,6 +169,62 @@ World *World::GetInstance()
         instance = new World();
 
     return instance;
+}
+
+Player* World::getPlayerByName(QString name)
+{
+    for(Player* p : players)
+        if(p->name == name)
+            return p;
+    return nullptr;
+}
+
+void World::calculateIncomes()
+{
+    for(Player* p : players)
+        p->income = 0;
+
+    for(Country c : countries)
+    {
+        switch(c.getBuildingPrim())
+        {
+        case BuildingPrimary::None:
+            break;
+        case BuildingPrimary::City:
+            c.getPlayer()->income += 10;
+            break;
+        case BuildingPrimary::Factory:
+            c.getPlayer()->income += 10;
+            for(int i=0; i<countries.size(); i++)
+                if(countries[i].getPlayer() == c.getPlayer() && countries[i].getResource() > 0)
+                    c.getPlayer()->income += 2;
+            break;
+        case BuildingPrimary::Port:
+            for(int i=0; i<countries.size(); i++)
+            {
+                if(countries[i].getPlayer() == c.getPlayer() && countries[i].getBuildingPrim() == BuildingPrimary::Factory)
+                    c.getPlayer()->income += 2;
+                if(countries[i].getBuildingPrim() == BuildingPrimary::Port)
+                    c.getPlayer()->income += 1;
+            }
+            break;
+        case BuildingPrimary::Railroad:
+            for(Country* neighbor : c.neighbors)
+            {
+                if(neighbor->getPlayer() == c.getPlayer())
+                {
+                    if(neighbor->getBuildingPrim() == BuildingPrimary::City ||
+                       neighbor->getBuildingPrim() == BuildingPrimary::Factory ||
+                       neighbor->getBuildingPrim() == BuildingPrimary::Port)
+                        c.getPlayer()->income += 4;
+                    if(neighbor->getResource() > 0)
+                        c.getPlayer()->income += 4;
+                }
+            }
+            break;
+        }
+        c.getPlayer()->income += c.getResource();
+    }
 }
 
 QList<Country> World::GetCountriesForPlayer(Player* player)

@@ -23,6 +23,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     player.cpp \
+    playerdelegate.cpp \
     playersframe.cpp \
     playerstablemodel.cpp \
     world.cpp
@@ -34,6 +35,7 @@ HEADERS += \
     country.h \
     mainwindow.h \
     player.h \
+    playerdelegate.h \
     playersframe.h \
     playerstablemodel.h \
     world.h

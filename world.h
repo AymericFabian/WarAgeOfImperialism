@@ -15,6 +15,9 @@ public:
 
     QList<Player*> players;
 
+    Player *getPlayerByName(QString name);
+
+    void calculateIncomes();
 private:
     World();
     static World* instance;

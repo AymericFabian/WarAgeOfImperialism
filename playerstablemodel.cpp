@@ -61,9 +61,9 @@ QVariant PlayersTableModel::data(const QModelIndex &index, int role) const
         }
     case Qt::ForegroundRole:
         if(player->color.red() + player->color.green() + player->color.blue() < 383)
-            return QBrush(QColor::fromRgb(255,255,255));
+            return QBrush(QColor(Qt::white));
         else
-            return QBrush(QColor::fromRgb(0,0,0));
+            return QBrush(QColor(Qt::black));
     case Qt::BackgroundRole:
         return QBrush(player->color);
     }

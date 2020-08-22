@@ -6,7 +6,7 @@
 QList<QString> Country::buildingNames = {"None", "City", "Factory", "Port", "Railroad"};
 QList<QString> Country::continentNames = {"Europe", "Center Asia", "Eastern Asia", "Oceania", "Middle East", "Africa"};
 
-Country::Country(QString name, Continent cont) : name(name), continent(cont)
+Country::Country(QString name, Continent cont, Player* player) : name(name), continent(cont), player(player)
 {
 }
 
@@ -17,7 +17,9 @@ BuildingPrimary Country::getBuildingType(QString build)
 
 QString Country::getBuildingName(BuildingPrimary build)
 {
-    return buildingNames[(int)build];
+    if((int)build > 0 && (int)build < buildingNames.size())
+        return buildingNames[(int)build];
+    return "None";
 }
 
 QString Country::getContinentName(Continent cont)
@@ -28,8 +30,29 @@ QString Country::getContinentName(Continent cont)
 void Country::setPlayer(Player* newPlayer)
 {
     player = newPlayer;
+    World::GetInstance()->calculateIncomes();
+}
 
-    //player->income = Worl;
+void Country::setFort(bool fort)
+{
+    this->fort = fort;
+}
+
+void Country::setSchool(bool school)
+{
+    this->school = school;
+}
+
+void Country::setResource(int resource)
+{
+    this->resource = resource;
+    World::GetInstance()->calculateIncomes();
+}
+
+void Country::setBuilding(BuildingPrimary building)
+{
+    this->buildingPrim = building;
+    World::GetInstance()->calculateIncomes();
 }
 
 const QColor Country::getColor() const
@@ -49,4 +72,5 @@ const QColor Country::getColor() const
     case Continent::Africa:
         return QColor::fromRgb(236,179,255);
     }
+    return QColor(Qt::white);
 }

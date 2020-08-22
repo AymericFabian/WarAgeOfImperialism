@@ -59,21 +59,24 @@ QVariant CountriesTableModel::data(const QModelIndex &index, int role) const
         case (int)Columns::Resource:
             return country.getResource();
         }
-    case Qt::FontRole:
-//        if (row == 0 && col == 0) {
-//            QFont boldFont;
-//            boldFont.setBold(true);
-//            return boldFont;
-//        }
-        break;
+    case Qt::ForegroundRole:
+        if (col == (int)Columns::Player)
+            if(country.getPlayer()->color.red() + country.getPlayer()->color.green() + country.getPlayer()->color.blue() < 383)
+                return QBrush(QColor(Qt::white));
+            else
+                return QBrush(QColor(Qt::black));
+        else
+        {
+            if(country.getColor().red() + country.getColor().green() + country.getColor().blue() < 345)
+                return QBrush(QColor(Qt::white));
+            else
+                return QBrush(QColor(Qt::black));
+        }
     case Qt::BackgroundRole:
         if (col == (int)Columns::Player)
             return QBrush(country.getPlayer()->color);
         else
             return QBrush(country.getColor());
-        break;
-    case Qt::TextAlignmentRole:
-        //return Qt::AlignCenter;
         break;
     case Qt::CheckStateRole:
         if (col == (int)Columns::Fort)
@@ -106,7 +109,7 @@ bool CountriesTableModel::setData(const QModelIndex &index, const QVariant &valu
     {
         switch(index.column()){
         case (int)Columns::Player:
-            country.setPlayer(World::GetInstance()->players[value.toInt()]);
+            country.setPlayer(World::GetInstance()->getPlayerByName(value.toString()));
             return true;
         case (int)Columns::Building:
             country.setBuilding(Country::getBuildingType(value.toString()));

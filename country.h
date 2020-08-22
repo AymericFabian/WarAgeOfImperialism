@@ -12,21 +12,22 @@ enum class Continent { Europe, CenterAsia, EastAsia, Oceania, MiddleEast, Africa
 class Country
 {
 public:
-    Country(QString name, Continent cont);
+    Country(QString name, Continent cont, Player* player);
     QList<Country*> neighbors;
 
     Continent getContinent() const {return continent;}
     void setPlayer(Player* newPlayer);
-    void setFort(bool fort) {this->fort = fort;}
-    void setSchool(bool school) {this->school = school;}
-    void setResource(int resource) {this->resource = resource;}
-    void setBuilding(BuildingPrimary building) {this->buildingPrim = building;}
+    void setFort(bool fort);
+    void setSchool(bool school);
+    void setResource(int resource);
+    void setBuilding(BuildingPrimary building);
 
     bool hasSchool() {return school;}
     bool hasFort() {return fort;}
     const QColor getColor() const;
     const QString getName() const {return name;}
     const Player* getPlayer() const {return player;}
+    Player* getPlayer() {return player;}
     const BuildingPrimary& getBuildingPrim() const {return buildingPrim;}
     int getResource() const {return resource;}
 
