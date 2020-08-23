@@ -20,7 +20,7 @@ void Player::write(QJsonObject& json) const
 
     QJsonArray enemiesArray;
     for(int i=0; i<enemy.size(); i++)
-        enemiesArray.append(enemy.at(0));
+        enemiesArray.append(enemy.at(i));
     json["enemy"] = enemiesArray;
 }
 

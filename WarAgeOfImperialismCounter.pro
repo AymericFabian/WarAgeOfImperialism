@@ -28,6 +28,8 @@ SOURCES += \
     playerdelegate.cpp \
     playersframe.cpp \
     playerstablemodel.cpp \
+    technologyframe.cpp \
+    techtreeframe.cpp \
     world.cpp
 
 HEADERS += \
@@ -42,13 +44,17 @@ HEADERS += \
     playerdelegate.h \
     playersframe.h \
     playerstablemodel.h \
+    technologyframe.h \
+    techtreeframe.h \
     world.h
 
 FORMS += \
     countriesframe.ui \
     diplomacyframe.ui \
     mainwindow.ui \
-    playersframe.ui
+    playersframe.ui \
+    technologyframe.ui \
+    techtreeframe.ui
 
 TRANSLATIONS += \
     WarAgeOfImperialismCounter_en_US.ts

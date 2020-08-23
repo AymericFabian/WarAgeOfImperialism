@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/root">
         <file>cannon.png</file>
+        <file>old_paper.png</file>
     </qresource>
 </RCC>
