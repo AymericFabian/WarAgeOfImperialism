@@ -73,7 +73,9 @@ QVariant PlayersTableModel::data(const QModelIndex &index, int role) const
 Qt::ItemFlags PlayersTableModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags flags = QAbstractTableModel::flags(index);
-    if (index.column() == (int)Columns::Name || index.column() == (int)Columns::Blockades)
+    if (index.column() == (int)Columns::Name ||
+        index.column() == (int)Columns::Bank ||
+        index.column() == (int)Columns::Blockades)
         flags |= Qt::ItemIsEditable;
     return flags;
 }
@@ -90,6 +92,9 @@ bool PlayersTableModel::setData(const QModelIndex &index, const QVariant &value,
         switch(index.column()){
         case (int)Columns::Name:
             player->name = value.toString();
+            return true;
+        case (int)Columns::Bank:
+            player->bank = value.toInt();
             return true;
         case (int)Columns::Blockades:
             player->blockadesCount = value.toInt();

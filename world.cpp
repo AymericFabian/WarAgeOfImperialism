@@ -2,6 +2,7 @@
 #include "player.h"
 
 #include <QDebug>
+#include <QtMath>
 
 World* World::instance = nullptr;
 
@@ -148,19 +149,27 @@ World::World()
     mozambique->neighbors << tanganikya << angola << natu;
     natu->neighbors << angola << mozambique;
 
-    countries << *gb << *fr << *spain << *ger << *it << *prussia << *hun << *balk << *lithuana << *scand << *ru << *ukr << *cauca
-              << *transUral << *turkestan << *afghanistan << *siberia << *kazakhstan << *kashmir << *india << *tibet << *bengal
-              << *yakut << *kamchatka << *buryat << *manchuria << *mongolia << *korea << *china << *japan << *siam << *annam
-              << *sumatra << *borneo << *philippines << *newGuinea << *westAus << *northTerr << *southAus << *queensland << *newSouthWales
-              << *morocco << *algeria << *tripoli << *egypt << *palestine << *ottoman << *mesopotamia << *persia << *arabia
-              << *mauritania << *westAfrica << *nigeria << *eqAfrica << *sudan << *abyssinia << *kongo << *kenya << *angola << *tanganikya << *mozambique << *natu << *madagascar;
+    countries << gb << fr << spain << ger << it << prussia << hun << balk << lithuana << scand << ru << ukr << cauca
+              << transUral << turkestan << afghanistan << siberia << kazakhstan << kashmir << india << tibet << bengal
+              << yakut << kamchatka << buryat << manchuria << mongolia << korea << china << japan << siam << annam
+              << sumatra << borneo << philippines << newGuinea << westAus << northTerr << southAus << queensland << newSouthWales
+              << morocco << algeria << tripoli << egypt << palestine << ottoman << mesopotamia << persia << arabia
+              << mauritania << westAfrica << nigeria << eqAfrica << sudan << abyssinia << kongo << kenya << angola << tanganikya << mozambique << natu << madagascar;
 
-    std::sort(countries.begin(), countries.end(), [](const Country& c1, const Country& c2) {
-        QString cont1 = Country::getContinentName(c1.getContinent());
-        QString cont2 = Country::getContinentName(c2.getContinent());
+    std::sort(countries.begin(), countries.end(), [](const Country* c1, const Country* c2) {
+        QString cont1 = Country::getContinentName(c1->getContinent());
+        QString cont2 = Country::getContinentName(c2->getContinent());
         if(cont1 != cont2) return cont1 < cont2;
-        else return c1.getName() < c2.getName();
+        else return c1->getName() < c2->getName();
     });
+}
+
+World::~World()
+{
+    for(Country* c : countries)
+        delete c;
+    for(Player* p : players)
+        delete p;
 }
 
 World *World::GetInstance()
@@ -184,55 +193,62 @@ void World::calculateIncomes()
     for(Player* p : players)
         p->income = 0;
 
-    for(Country c : countries)
+    for(Country* c : countries)
     {
-        switch(c.getBuildingPrim())
+        switch(c->getBuildingPrim())
         {
         case BuildingPrimary::None:
             break;
         case BuildingPrimary::City:
-            c.getPlayer()->income += 10;
+            c->getPlayer()->income += 10;
             break;
         case BuildingPrimary::Factory:
-            c.getPlayer()->income += 10;
+            c->getPlayer()->income += 10;
             for(int i=0; i<countries.size(); i++)
-                if(countries[i].getPlayer() == c.getPlayer() && countries[i].getResource() > 0)
-                    c.getPlayer()->income += 2;
+                if(countries[i]->getPlayer() == c->getPlayer() && countries[i]->getResource() > 0)
+                    c->getPlayer()->income += 2;
             break;
         case BuildingPrimary::Port:
             for(int i=0; i<countries.size(); i++)
             {
-                if(countries[i].getPlayer() == c.getPlayer() && countries[i].getBuildingPrim() == BuildingPrimary::Factory)
-                    c.getPlayer()->income += 2;
-                if(countries[i].getBuildingPrim() == BuildingPrimary::Port)
-                    c.getPlayer()->income += 1;
+                if(countries[i]->getPlayer() == c->getPlayer() && countries[i]->getBuildingPrim() == BuildingPrimary::Factory)
+                    c->getPlayer()->income += 2;
+                if(countries[i]->getBuildingPrim() == BuildingPrimary::Port)
+                    c->getPlayer()->income += 1;
             }
             break;
         case BuildingPrimary::Railroad:
-            for(Country* neighbor : c.neighbors)
+            for(Country* neighbor : c->neighbors)
             {
-                if(neighbor->getPlayer() == c.getPlayer())
+                if(neighbor->getPlayer() == c->getPlayer())
                 {
                     if(neighbor->getBuildingPrim() == BuildingPrimary::City ||
                        neighbor->getBuildingPrim() == BuildingPrimary::Factory ||
                        neighbor->getBuildingPrim() == BuildingPrimary::Port)
-                        c.getPlayer()->income += 4;
+                        c->getPlayer()->income += 4;
                     if(neighbor->getResource() > 0)
-                        c.getPlayer()->income += 4;
+                        c->getPlayer()->income += 4;
                 }
             }
             break;
         }
-        c.getPlayer()->income += c.getResource();
+        c->getPlayer()->income += c->getResource();
+    }
+
+    // TODO inflation
+
+    for(Player* p : players)
+    {
+        p->income -= qMin(p->blockadesCount * 10, p->income/2);
     }
 }
 
-QList<Country> World::GetCountriesForPlayer(Player* player)
+QList<Country*> World::GetCountriesForPlayer(Player* player)
 {
-    QList<Country> countriesForPlayer;
+    QList<Country*> countriesForPlayer;
 
-    for(Country c : countries)
-        if(c.getPlayer() == player)
+    for(Country* c : countries)
+        if(c->getPlayer() == player)
             countriesForPlayer.append(c);
 
     return countriesForPlayer;

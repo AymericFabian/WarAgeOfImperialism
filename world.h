@@ -10,8 +10,8 @@ class World
 public:
     static World* GetInstance();
 
-    QList<Country> GetCountriesForPlayer(Player *player);
-    QList<Country> countries;
+    QList<Country*> GetCountriesForPlayer(Player *player);
+    QList<Country*> countries;
 
     QList<Player*> players;
 
@@ -20,6 +20,7 @@ public:
     void calculateIncomes();
 private:
     World();
+    ~World();
     static World* instance;
 };
 
