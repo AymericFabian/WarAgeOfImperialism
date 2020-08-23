@@ -6,7 +6,7 @@
 #include <QBrush>
 #include <QFont>
 
-QList<QString> PlayersTableModel::columnNames = { "Name", "Income", "Bank", "Resources", "Blockades" };
+QList<QString> PlayersTableModel::columnNames = { "Name", "Income", "Bank", "Blockades", "Resources", "Cities", "Factories", "Railroads", "Ports", "Schools", "Forts" };
 
 PlayersTableModel::PlayersTableModel(QObject *parent) : QAbstractTableModel(parent)
 {
@@ -19,7 +19,7 @@ int PlayersTableModel::rowCount(const QModelIndex & /*parent*/) const
 
 int PlayersTableModel::columnCount(const QModelIndex & /*parent*/) const
 {
-    return (int)Columns::Blockades + 1;
+    return (int)Columns::Forts + 1;
 }
 
 QVariant PlayersTableModel::headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const
@@ -55,9 +55,21 @@ QVariant PlayersTableModel::data(const QModelIndex &index, int role) const
         case (int)Columns::Bank:
             return player->bank;
         case (int)Columns::Resources:
-            return player->resources;
+            return player->incomeFromResources();
         case (int)Columns::Blockades:
-            return player->blockadesCount;
+            return player->blockades();
+        case (int)Columns::Cities:
+            return QString::number(player->buildings(BuildingPrimary::City)) + " (" + QString::number(player->incomeFromBuildings(BuildingPrimary::City)) + ")";
+        case (int)Columns::Factories:
+            return QString::number(player->buildings(BuildingPrimary::Factory)) + " (" + QString::number(player->incomeFromBuildings(BuildingPrimary::Factory)) + ")";
+        case (int)Columns::Railroads:
+            return QString::number(player->buildings(BuildingPrimary::Railroad)) + " (" + QString::number(player->incomeFromBuildings(BuildingPrimary::Railroad)) + ")";
+        case (int)Columns::Ports:
+            return QString::number(player->buildings(BuildingPrimary::Port)) + " (" + QString::number(player->incomeFromBuildings(BuildingPrimary::Port)) + ")";
+        case (int)Columns::Schools:
+            return player->schools();
+        case (int)Columns::Forts:
+            return player->forts();
         }
     case Qt::ForegroundRole:
         if(player->color.red() + player->color.green() + player->color.blue() < 383)
@@ -97,7 +109,7 @@ bool PlayersTableModel::setData(const QModelIndex &index, const QVariant &value,
             player->bank = value.toInt();
             return true;
         case (int)Columns::Blockades:
-            player->blockadesCount = value.toInt();
+            player->setBlockades(value.toInt());
             return true;
         }
         return true;

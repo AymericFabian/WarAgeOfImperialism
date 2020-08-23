@@ -1,14 +1,12 @@
-#ifndef PLAYERSTABLEMODEL_H
-#define PLAYERSTABLEMODEL_H
+#ifndef DIPLOMACYTABLEMODEL_H
+#define DIPLOMACYTABLEMODEL_H
 
 #include <QAbstractTableModel>
 
-class PlayersTableModel : public QAbstractTableModel
+class DiplomacyTableModel : public QAbstractTableModel
 {
 public:
-    enum class Columns { Name, Income, Bank, Blockades, Resources, Cities, Factories, Railroads, Ports, Schools, Forts };
-
-    explicit PlayersTableModel(QObject *parent = nullptr);
+    DiplomacyTableModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex & /*parent*/) const;
     int columnCount(const QModelIndex &) const;
@@ -21,4 +19,4 @@ private:
     static QList<QString> columnNames;
 };
 
-#endif // PLAYERSTABLEMODEL_H
+#endif // DIPLOMACYTABLEMODEL_H

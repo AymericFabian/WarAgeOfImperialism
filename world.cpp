@@ -17,6 +17,7 @@ World::World()
     Player* grey = new Player(QColor::fromRgb(190,190,190), "Grey");
 
     players << native << red << green << blue << yellow << purple << grey;
+
     Country* gb = new Country("Great Britain", Continent::Europe, native);
     Country* fr = new Country("France", Continent::Europe, native);
     Country* spain = new Country("Spain", Continent::Europe, native);
@@ -191,55 +192,44 @@ Player* World::getPlayerByName(QString name)
 void World::calculateIncomes()
 {
     for(Player* p : players)
-        p->income = 0;
-
-    for(Country* c : countries)
     {
-        switch(c->getBuildingPrim())
+        p->income = 0;
+        QList<Country*> playerCountries = GetCountriesForPlayer(p);
+
+        for(Country* c : playerCountries)
         {
-        case BuildingPrimary::None:
-            break;
-        case BuildingPrimary::City:
-            c->getPlayer()->income += 10;
-            break;
-        case BuildingPrimary::Factory:
-            c->getPlayer()->income += 10;
-            for(int i=0; i<countries.size(); i++)
-                if(countries[i]->getPlayer() == c->getPlayer() && countries[i]->getResource() > 0)
-                    c->getPlayer()->income += 2;
-            break;
-        case BuildingPrimary::Port:
-            for(int i=0; i<countries.size(); i++)
+            p->income += p->incomeFromCountry(c);
+        }
+    }
+
+    for(int i=0; i <= (int)Continent::Africa; i++)
+    {
+        Player* owner = nullptr;
+        bool isUnited = true;
+
+        for(Country* c : countries)
+        {
+            if((int)(c->getContinent()) == i)
             {
-                if(countries[i]->getPlayer() == c->getPlayer() && countries[i]->getBuildingPrim() == BuildingPrimary::Factory)
-                    c->getPlayer()->income += 2;
-                if(countries[i]->getBuildingPrim() == BuildingPrimary::Port)
-                    c->getPlayer()->income += 1;
-            }
-            break;
-        case BuildingPrimary::Railroad:
-            for(Country* neighbor : c->neighbors)
-            {
-                if(neighbor->getPlayer() == c->getPlayer())
+                if(owner == nullptr)
+                    owner = c->getPlayer();
+
+                if(c->getPlayer() != owner)
                 {
-                    if(neighbor->getBuildingPrim() == BuildingPrimary::City ||
-                       neighbor->getBuildingPrim() == BuildingPrimary::Factory ||
-                       neighbor->getBuildingPrim() == BuildingPrimary::Port)
-                        c->getPlayer()->income += 4;
-                    if(neighbor->getResource() > 0)
-                        c->getPlayer()->income += 4;
+                    isUnited = false;
+                    break;
                 }
             }
-            break;
         }
-        c->getPlayer()->income += c->getResource();
+        if(isUnited)
+            owner->income += 30;
     }
 
     // TODO inflation
 
     for(Player* p : players)
     {
-        p->income -= qMin(p->blockadesCount * 10, p->income/2);
+        p->income -= qMin(p->blockades() * 10, p->income/2);
     }
 }
 

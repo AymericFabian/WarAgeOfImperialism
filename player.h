@@ -15,7 +15,19 @@ public:
     QString name;
     int income = 0;
     int bank = 0;
-    int resources = 0;
+    QList<bool> enemy;
+    void setBlockades(int b);
+
+    int blockades() { return blockadesCount; }
+    int schools();
+    int forts();
+    int buildings(BuildingPrimary type);
+    int incomeFromBuildings(QList<Country *> countries);
+    int incomeFromBuildings(BuildingPrimary type);
+    int incomeFromCountry(Country* c);
+    int incomeFromResources();
+
+private:
     int blockadesCount = 0;
 };
 

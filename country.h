@@ -22,8 +22,8 @@ public:
     void setResource(int resource);
     void setBuilding(BuildingPrimary building);
 
-    bool hasSchool() {return school;}
-    bool hasFort() {return fort;}
+    bool hasSchool() const {return school;}
+    bool hasFort() const {return fort;}
     const QColor getColor() const;
     const QString getName() const {return name;}
     const Player* getPlayer() const {return player;}

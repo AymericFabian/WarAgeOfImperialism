@@ -29,6 +29,8 @@ QString Country::getContinentName(Continent cont)
 
 void Country::setPlayer(Player* newPlayer)
 {
+    if(player == newPlayer)
+        return;
     player = newPlayer;
     World::GetInstance()->calculateIncomes();
 }

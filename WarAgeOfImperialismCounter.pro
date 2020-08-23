@@ -20,6 +20,8 @@ SOURCES += \
     countriesframe.cpp \
     countriestablemodel.cpp \
     country.cpp \
+    diplomacyframe.cpp \
+    diplomacytablemodel.cpp \
     main.cpp \
     mainwindow.cpp \
     player.cpp \
@@ -33,6 +35,8 @@ HEADERS += \
     countriesframe.h \
     countriestablemodel.h \
     country.h \
+    diplomacyframe.h \
+    diplomacytablemodel.h \
     mainwindow.h \
     player.h \
     playerdelegate.h \
@@ -42,6 +46,7 @@ HEADERS += \
 
 FORMS += \
     countriesframe.ui \
+    diplomacyframe.ui \
     mainwindow.ui \
     playersframe.ui
 

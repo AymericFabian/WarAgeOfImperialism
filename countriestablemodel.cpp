@@ -109,7 +109,8 @@ bool CountriesTableModel::setData(const QModelIndex &index, const QVariant &valu
     {
         switch(index.column()){
         case (int)Columns::Player:
-            country->setPlayer(World::GetInstance()->getPlayerByName(value.toString()));
+            if(value.toString() != "")
+                country->setPlayer(World::GetInstance()->getPlayerByName(value.toString()));
             return true;
         case (int)Columns::Building:
             country->setBuilding(Country::getBuildingType(value.toString()));
