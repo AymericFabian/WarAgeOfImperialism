@@ -3,6 +3,7 @@
 
 #include <QList>
 #include <QColor>
+#include <QJsonObject>
 
 class Player;
 
@@ -35,6 +36,8 @@ public:
     static QString getBuildingName(BuildingPrimary build);
     static QString getContinentName(Continent cont);
 
+    void write(QJsonObject &json) const;
+    void read(const QJsonObject &json);
 private:
     QString name;
     Continent continent;

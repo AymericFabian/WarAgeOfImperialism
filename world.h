@@ -4,6 +4,7 @@
 #include "country.h"
 
 #include <QList>
+#include <QJsonObject>
 
 class World
 {
@@ -18,10 +19,16 @@ public:
     Player *getPlayerByName(QString name);
 
     void calculateIncomes();
+
+    void write(QJsonObject &json) const;
+    void read(const QJsonObject &json);
 private:
     World();
     ~World();
     static World* instance;
+
+signals:
+    void dataChanged();
 };
 
 #endif // WORLD_H

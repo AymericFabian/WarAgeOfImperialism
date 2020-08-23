@@ -1,11 +1,53 @@
 #include "player.h"
 #include "world.h"
 
+#include <QJsonArray>
+
 Player::Player(QColor col, QString name) : color(col), name(name)
 {
     enemy.append(true);
     for(int i=1; i<=6; i++)
         enemy.append(false);
+}
+
+void Player::write(QJsonObject& json) const
+{
+    json["name"] = name;
+    json["income"] = income;
+    json["bank"] = bank;
+    json["blockades"] = blockadesCount;
+
+
+    QJsonArray enemiesArray;
+    for(int i=0; i<enemy.size(); i++)
+        enemiesArray.append(enemy.at(0));
+    json["enemy"] = enemiesArray;
+}
+
+void Player::read(const QJsonObject &json)
+{
+    if (json.contains("name") && json["name"].isString())
+        name = json["name"].toString();
+
+    if (json.contains("building") && json["income"].isDouble())
+        income = json["income"].toInt();
+
+    if (json.contains("bank") && json["bank"].isDouble())
+        bank = json["bank"].toInt();
+
+    if (json.contains("blockades") && json["blockades"].isDouble())
+        blockadesCount = json["blockades"].toInt();
+
+    if (json.contains("enemy") && json["enemy"].isArray())
+    {
+        QJsonArray enemiesArray = json["enemy"].toArray();
+        for(int i=0; i<enemiesArray.size(); i++)
+        {
+            QJsonValue v = enemiesArray[i];
+            if(v.isBool())
+                enemy[i] = v.toBool();
+        }
+    }
 }
 
 void Player::setBlockades(int b)

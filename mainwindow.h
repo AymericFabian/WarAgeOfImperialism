@@ -15,7 +15,16 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void saveGame();
+    void loadGameFromFile();
+    void loadGame();
+    void renameGame();
+    void saveState();
+
 private:
     Ui::MainWindow *ui;
+
+    QString filePath;
 };
 #endif // MAINWINDOW_H

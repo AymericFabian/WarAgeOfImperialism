@@ -10,6 +10,37 @@ Country::Country(QString name, Continent cont, Player* player) : name(name), con
 {
 }
 
+void Country::write(QJsonObject& json) const
+{
+    json["name"] = name;
+    json["player"] = player->name;
+    json["resource"] = resource;
+    json["building"] = (int)buildingPrim;
+    json["school"] = school;
+    json["fort"] = fort;
+}
+
+void Country::read(const QJsonObject &json)
+{
+    if (json.contains("name") && json["name"].isString())
+        name = json["name"].toString();
+
+    if (json.contains("player") && json["player"].isString())
+        player = World::GetInstance()->getPlayerByName(json["player"].toString());
+
+    if (json.contains("resource") && json["resource"].isDouble())
+        resource = json["resource"].toInt();
+
+    if (json.contains("building") && json["building"].isDouble())
+        buildingPrim = (BuildingPrimary)json["building"].toInt();
+
+    if (json.contains("school") && json["school"].isBool())
+        school = json["school"].toBool();
+
+    if (json.contains("fort") && json["fort"].isBool())
+        school = json["fort"].toBool();
+}
+
 BuildingPrimary Country::getBuildingType(QString build)
 {
     return (BuildingPrimary) buildingNames.indexOf(build);

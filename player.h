@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QColor>
+#include <QJsonObject>
 
 #include "country.h"
 
@@ -26,6 +27,9 @@ public:
     int incomeFromBuildings(BuildingPrimary type);
     int incomeFromCountry(Country* c);
     int incomeFromResources();
+
+    void write(QJsonObject &json) const;
+    void read(const QJsonObject &json);
 
 private:
     int blockadesCount = 0;

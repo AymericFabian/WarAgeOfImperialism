@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <QtMath>
+#include <QJsonArray>
 
 World* World::instance = nullptr;
 
@@ -173,6 +174,50 @@ World::~World()
         delete p;
 }
 
+void World::write(QJsonObject& json) const
+{
+    QJsonArray playersArray;
+    for(Player* p : players)
+    {
+        QJsonObject playerObject;
+        p->write(playerObject);
+        playersArray.append(playerObject);
+    }
+    json["players"] = playersArray;
+
+    QJsonArray countriesArray;
+    for(Country* c : countries)
+    {
+        QJsonObject countryObject;
+        c->write(countryObject);
+        countriesArray.append(countryObject);
+    }
+    json["countries"] = countriesArray;
+}
+
+void World::read(const QJsonObject &json)
+{
+    if (json.contains("players") && json["players"].isArray()) {
+        QJsonArray playersArray = json["players"].toArray();
+        for (int playerIdx = 0; playerIdx < playersArray.size(); playerIdx++) {
+            QJsonObject playerObject = playersArray[playerIdx].toObject();
+            players[playerIdx]->read(playerObject);
+        }
+    }
+
+    if (json.contains("countries") && json["countries"].isArray()) {
+        QJsonArray countriesArray = json["countries"].toArray();
+        for (int countryIdx = 0; countryIdx < countriesArray.size(); countryIdx++) {
+            QJsonObject countryObject = countriesArray[countryIdx].toObject();
+            for(Country* c : countries)
+                if(c->getName() == countryObject["name"].toString())
+                    c->read(countryObject);
+        }
+    }
+
+    calculateIncomes();
+}
+
 World *World::GetInstance()
 {
     if(!instance)
@@ -227,6 +272,7 @@ void World::calculateIncomes()
 
     // TODO inflation
 
+    // TODO blockade round up income/2
     for(Player* p : players)
     {
         p->income -= qMin(p->blockades() * 10, p->income/2);
