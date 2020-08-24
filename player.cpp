@@ -115,7 +115,7 @@ int Player::incomeFromBuildings(QList<Country*> countries)
         case BuildingPrimary::None:
             break;
         case BuildingPrimary::City:
-            buildingIncome += 10;
+            buildingIncome += 10 + 5 * technologies[Technology::Government];
             break;
         case BuildingPrimary::Factory:
             for(Country* neighbor : c->neighbors)
@@ -128,7 +128,7 @@ int Player::incomeFromBuildings(QList<Country*> countries)
                         buildingIncome += 10;
                         for(int i=0; i<allCountries.size(); i++)
                             if(allCountries[i]->getPlayer() == c->getPlayer() && allCountries[i]->getResource() > 0)
-                                buildingIncome += 2;
+                                buildingIncome += 2 + technologies[Technology::Industry];
                         break;
                     }
                 }
@@ -139,7 +139,7 @@ int Player::incomeFromBuildings(QList<Country*> countries)
             for(int i=0; i<allCountries.size(); i++)
             {
                 if(allCountries[i]->getPlayer() == c->getPlayer() && allCountries[i]->getBuildingPrim() == BuildingPrimary::Factory)
-                    buildingIncome += 2;
+                    buildingIncome += 2 + technologies[Technology::Trade];
                 if(allCountries[i]->getBuildingPrim() == BuildingPrimary::Port)
                     buildingIncome += 1;
             }
@@ -152,9 +152,9 @@ int Player::incomeFromBuildings(QList<Country*> countries)
                     if(neighbor->getBuildingPrim() == BuildingPrimary::City ||
                        neighbor->getBuildingPrim() == BuildingPrimary::Factory ||
                        neighbor->getBuildingPrim() == BuildingPrimary::Port)
-                        buildingIncome += 4;
+                        buildingIncome += 4 + technologies[Technology::Economics];
                     if(neighbor->getResource() > 0)
-                        buildingIncome += 4;
+                        buildingIncome += 4 + technologies[Technology::Economics];
                 }
             }
             break;

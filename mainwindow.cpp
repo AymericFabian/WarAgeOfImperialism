@@ -16,8 +16,11 @@ MainWindow::MainWindow(QWidget *parent)
     loadGame();
 
     ui->setupUi(this);
-    setWindowTitle("War! Age of Imperialism");
     setWindowIcon(QIcon(":/root/cannon.png"));
+
+    QString fileName = filePath.right(filePath.length() - filePath.lastIndexOf('/') - 1);
+    fileName = fileName.left(fileName.lastIndexOf('.'));
+    setWindowTitle("War! Age of Imperialism - " + fileName);
 
     connect(ui->loadButton, SIGNAL(released()), this, SLOT(loadGameFromFile()));
     connect(ui->saveAsButton, SIGNAL(released()), this, SLOT(renameGame()));

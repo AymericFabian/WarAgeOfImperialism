@@ -296,4 +296,5 @@ void World::ResearchTech(int player, Player::Technology techno, int level, bool 
         players[player]->technologies[techno] = level;
     else
         players[player]->technologies[techno] = level - 1;
+    calculateIncomes();
 }
