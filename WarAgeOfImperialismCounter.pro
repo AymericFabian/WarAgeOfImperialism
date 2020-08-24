@@ -29,6 +29,7 @@ SOURCES += \
     playersframe.cpp \
     playerstablemodel.cpp \
     technologyframe.cpp \
+    techplayerbutton.cpp \
     techtreeframe.cpp \
     world.cpp
 
@@ -45,6 +46,7 @@ HEADERS += \
     playersframe.h \
     playerstablemodel.h \
     technologyframe.h \
+    techplayerbutton.h \
     techtreeframe.h \
     world.h
 

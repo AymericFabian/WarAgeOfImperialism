@@ -2,6 +2,7 @@
 #define WORLD_H
 
 #include "country.h"
+#include "player.h"
 
 #include <QList>
 #include <QJsonObject>
@@ -22,6 +23,8 @@ public:
 
     void write(QJsonObject &json) const;
     void read(const QJsonObject &json);
+    void ResearchTech(int player, Player::Technology techno, int level, bool researched);
+
 private:
     World();
     ~World();

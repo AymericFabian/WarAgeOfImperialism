@@ -3,6 +3,8 @@
 
 #include <QFrame>
 
+#include "player.h"
+
 namespace Ui {
 class TechnologyFrame;
 }
@@ -15,10 +17,20 @@ public:
     explicit TechnologyFrame(QWidget *parent = nullptr);
     ~TechnologyFrame();
 
-    void setName(QString name);
+    void init(Player::Technology techno, int level);
 
 private:
     Ui::TechnologyFrame *ui;
+
+    Player::Technology techno;
+    int level;
+
+private slots:
+    void technoToggled(bool);
+
+signals:
+    // player, techno, level, isResearched
+    void researched(int, Player::Technology, int, bool);
 };
 
 #endif // TECHNOLOGYFRAME_H

@@ -2,6 +2,7 @@
 #define TECHTREEFRAME_H
 
 #include <QFrame>
+#include "player.h"
 
 namespace Ui {
 class TechTreeFrame;
@@ -14,6 +15,9 @@ class TechTreeFrame : public QFrame
 public:
     explicit TechTreeFrame(QWidget *parent = nullptr);
     ~TechTreeFrame();
+
+public slots:
+    void onResearch(int player, Player::Technology techno, int level, bool researched);
 
 private:
     Ui::TechTreeFrame *ui;

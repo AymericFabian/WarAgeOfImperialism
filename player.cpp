@@ -3,11 +3,22 @@
 
 #include <QJsonArray>
 
+QList<QString> Player::technoNames = { "Education", "Science", "Military Academy", "Advanced Engineering", "Metallurgy", "Industry",
+                                       "Inflation", "Economics", "Trade", "Government", "Artillery", "Battleship Guns", "Rifles", "Cavalry" };
+
 Player::Player(QColor col, QString name) : color(col), name(name)
 {
     enemy.append(true);
     for(int i=1; i<=6; i++)
         enemy.append(false);
+
+    for(int i=0; i<=(int)Technology::Cavalry; i++)
+        technologies[(Technology)i] = 0;
+}
+
+QString Player::getTechnoName(Technology techno)
+{
+    return technoNames[(int)techno];
 }
 
 void Player::write(QJsonObject& json) const
@@ -17,11 +28,18 @@ void Player::write(QJsonObject& json) const
     json["bank"] = bank;
     json["blockades"] = blockadesCount;
 
-
     QJsonArray enemiesArray;
     for(int i=0; i<enemy.size(); i++)
         enemiesArray.append(enemy.at(i));
     json["enemy"] = enemiesArray;
+
+    QJsonArray technosArray;
+    for(int i=0; i<=(int)Technology::Cavalry; i++)
+    {
+        int lvl = technologies[(Technology)i];
+        technosArray.append(lvl);
+    }
+    json["technos"] = technosArray;
 }
 
 void Player::read(const QJsonObject &json)
@@ -46,6 +64,17 @@ void Player::read(const QJsonObject &json)
             QJsonValue v = enemiesArray[i];
             if(v.isBool())
                 enemy[i] = v.toBool();
+        }
+    }
+
+    if (json.contains("technos") && json["technos"].isArray())
+    {
+        QJsonArray technosArray = json["technos"].toArray();
+        for(int i=0; i<technosArray.size(); i++)
+        {
+            QJsonValue v = technosArray[i];
+            if(v.isDouble())
+                technologies[(Technology)i] = v.toInt();
         }
     }
 }

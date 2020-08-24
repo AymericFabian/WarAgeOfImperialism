@@ -289,3 +289,11 @@ QList<Country*> World::GetCountriesForPlayer(Player* player)
 
     return countriesForPlayer;
 }
+
+void World::ResearchTech(int player, Player::Technology techno, int level, bool researched)
+{
+    if(researched)
+        players[player]->technologies[techno] = level;
+    else
+        players[player]->technologies[techno] = level - 1;
+}

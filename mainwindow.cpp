@@ -11,6 +11,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    World::GetInstance();
+    filePath = "save.json";
+    loadGame();
+
     ui->setupUi(this);
     setWindowTitle("War! Age of Imperialism");
     setWindowIcon(QIcon(":/root/cannon.png"));
@@ -19,13 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->saveAsButton, SIGNAL(released()), this, SLOT(renameGame()));
     connect(ui->saveStateButton, SIGNAL(released()), this, SLOT(saveState()));
 
-    filePath = "save.json";
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(saveGame()));
     timer->start(1000);
-
-    World::GetInstance();
-    loadGame();
 }
 
 MainWindow::~MainWindow()

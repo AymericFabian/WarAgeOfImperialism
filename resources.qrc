@@ -2,5 +2,17 @@
     <qresource prefix="/root">
         <file>cannon.png</file>
         <file>old_paper.png</file>
+        <file>techButtonRedEmpty.png</file>
+        <file>techButtonRedFull.png</file>
+        <file>techButtonGrayEmpty.png</file>
+        <file>techButtonGrayFull.png</file>
+        <file>techButtonGreenEmpty.png</file>
+        <file>techButtonGreenFull.png</file>
+        <file>techButtonPurpleEmpty.png</file>
+        <file>techButtonPurpleFull.png</file>
+        <file>techButtonYellowEmpty.png</file>
+        <file>techButtonYellowFull.png</file>
+        <file>techButtonBlueEmpty.png</file>
+        <file>techButtonBlueFull.png</file>
     </qresource>
 </RCC>
