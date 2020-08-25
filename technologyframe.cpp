@@ -22,27 +22,28 @@ void TechnologyFrame::init(Player::Technology techno, int level)
     ui->toolButtonPurple->init(TechPlayerButton::Color::Purple);
     ui->toolButtonGray->init(TechPlayerButton::Color::Gray);
 
-    if(World::GetInstance()->players.at(1)->technologies[techno] >= level)
-        ui->toolButtonRed->setChecked(true);
-    if(World::GetInstance()->players.at(2)->technologies[techno] >= level)
-        ui->toolButtonGreen->setChecked(true);
-    if(World::GetInstance()->players.at(3)->technologies[techno] >= level)
-        ui->toolButtonBlue->setChecked(true);
-    if(World::GetInstance()->players.at(4)->technologies[techno] >= level)
-        ui->toolButtonYellow->setChecked(true);
-    if(World::GetInstance()->players.at(5)->technologies[techno] >= level)
-        ui->toolButtonPurple->setChecked(true);
-    if(World::GetInstance()->players.at(6)->technologies[techno] >= level)
-        ui->toolButtonGray->setChecked(true);
-
     for(TechPlayerButton* but : findChildren<TechPlayerButton*>())
+    {
+        if(World::GetInstance()->players.at((int)but->color + 1)->technologies[techno] >= level)
+            but->setChecked(true);
+        if(World::GetInstance()->players.at((int)but->color + 1)->technologies[techno] > level)
+            but->setEnabled(false);
         connect(but,      SIGNAL(toggled(bool)), this, SLOT(technoToggled(bool)));
+    }
 }
 
 void TechnologyFrame::technoToggled(bool)
 {
     TechPlayerButton* but = static_cast<TechPlayerButton*>(sender());
     emit researched((int)but->color + 1, techno, level, but->isChecked());
+}
+
+void TechnologyFrame::updateStatus(int player, Player::Technology techno, int level, bool researched)
+{
+    if(this->techno == techno && level == this->level + 1)
+        for(TechPlayerButton* but : findChildren<TechPlayerButton*>())
+            if((int)but->color == player - 1)
+                but->setEnabled(!researched);
 }
 
 TechnologyFrame::~TechnologyFrame()

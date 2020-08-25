@@ -69,6 +69,9 @@ TechTreeFrame::TechTreeFrame(QWidget *parent) :
 void TechTreeFrame::onResearch(int player, Player::Technology techno, int level, bool researched)
 {
     World::GetInstance()->ResearchTech(player, techno, level, researched);
+
+    for(TechnologyFrame* techFrame : findChildren<TechnologyFrame*>())
+        techFrame->updateStatus(player, techno, level, researched);
 }
 
 TechTreeFrame::~TechTreeFrame()
