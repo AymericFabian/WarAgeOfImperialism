@@ -89,5 +89,5 @@ void MainWindow::renameGame()
 
 void MainWindow::saveState()
 {
-
+    World::GetInstance()->saveState();
 }

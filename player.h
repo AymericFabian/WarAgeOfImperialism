@@ -37,6 +37,7 @@ public:
     void read(const QJsonObject &json);
 
     static QString getTechnoName(Technology techno);
+    int resourceTokens();
 private:
     int blockadesCount = 0;
     static QList<QString> technoNames;

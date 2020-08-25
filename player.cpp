@@ -35,10 +35,7 @@ void Player::write(QJsonObject& json) const
 
     QJsonArray technosArray;
     for(int i=0; i<=(int)Technology::Cavalry; i++)
-    {
-        int lvl = technologies[(Technology)i];
-        technosArray.append(lvl);
-    }
+        technosArray.append(technologies[(Technology)i]);
     json["technos"] = technosArray;
 }
 
@@ -103,9 +100,21 @@ int Player::forts()
     return std::count_if(countries.begin(), countries.end(), [](const Country* c) { return c->hasFort(); });
 }
 
+int Player::resourceTokens()
+{
+    int tokens = 0;
+
+    QList<Country*> pCountries = World::GetInstance()->GetCountriesForPlayer(this);
+    for(Country* c : pCountries)
+        if(c->getResource() > 0)
+            tokens++;
+
+    return tokens;
+}
+
 int Player::incomeFromBuildings(QList<Country*> countries)
 {
-    QList<Country*> allCountries = World::GetInstance()->GetCountriesForPlayer(this);
+    QList<Country*> pCountries = World::GetInstance()->GetCountriesForPlayer(this);
     int buildingIncome = 0;
 
     for(Country* c : countries)
@@ -126,8 +135,8 @@ int Player::incomeFromBuildings(QList<Country*> countries)
                     if(neighbor->getBuildingPrim() == BuildingPrimary::City)
                     {
                         buildingIncome += 10;
-                        for(int i=0; i<allCountries.size(); i++)
-                            if(allCountries[i]->getPlayer() == c->getPlayer() && allCountries[i]->getResource() > 0)
+                        for(int i=0; i<pCountries.size(); i++)
+                            if(pCountries[i]->getPlayer() == c->getPlayer() && pCountries[i]->getResource() > 0)
                                 buildingIncome += 2 + technologies[Technology::Industry];
                         break;
                     }
@@ -136,13 +145,12 @@ int Player::incomeFromBuildings(QList<Country*> countries)
 
             break;
         case BuildingPrimary::Port:
-            for(int i=0; i<allCountries.size(); i++)
-            {
-                if(allCountries[i]->getPlayer() == c->getPlayer() && allCountries[i]->getBuildingPrim() == BuildingPrimary::Factory)
+            for(int i=0; i<pCountries.size(); i++)
+                if(pCountries[i]->getPlayer() == c->getPlayer() && pCountries[i]->getBuildingPrim() == BuildingPrimary::Factory)
                     buildingIncome += 2 + technologies[Technology::Trade];
-                if(allCountries[i]->getBuildingPrim() == BuildingPrimary::Port)
+            for(Country* c : countries)
+                if(c->getBuildingPrim() == BuildingPrimary::Port)
                     buildingIncome += 1;
-            }
             break;
         case BuildingPrimary::Railroad:
             for(Country* neighbor : c->neighbors)

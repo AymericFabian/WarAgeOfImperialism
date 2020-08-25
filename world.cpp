@@ -1,5 +1,6 @@
 #include "world.h"
 #include "player.h"
+#include "historystate.h"
 
 #include <QDebug>
 #include <QtMath>
@@ -172,6 +173,8 @@ World::~World()
         delete c;
     for(Player* p : players)
         delete p;
+    for(HistoryState* hs : history)
+        delete hs;
 }
 
 void World::write(QJsonObject& json) const
@@ -193,6 +196,15 @@ void World::write(QJsonObject& json) const
         countriesArray.append(countryObject);
     }
     json["countries"] = countriesArray;
+
+    QJsonArray historyArray;
+    for(HistoryState* hs : history)
+    {
+        QJsonObject histo;
+        hs->write(histo);
+        historyArray.append(histo);
+    }
+    json["history"] = historyArray;
 }
 
 void World::read(const QJsonObject &json)
@@ -212,6 +224,17 @@ void World::read(const QJsonObject &json)
             for(Country* c : countries)
                 if(c->getName() == countryObject["name"].toString())
                     c->read(countryObject);
+        }
+    }
+
+    for(HistoryState* hs : history)
+        delete hs;
+    if (json.contains("history") && json["history"].isArray()) {
+        QJsonArray historyArray = json["history"].toArray();
+        for (int histoIdx = 0; histoIdx < historyArray.size(); histoIdx++) {
+            HistoryState* hs = new HistoryState();
+            hs->read(historyArray[histoIdx].toObject());
+            history.append(hs);
         }
     }
 
@@ -297,4 +320,10 @@ void World::ResearchTech(int player, Player::Technology techno, int level, bool 
     else
         players[player]->technologies[techno] = level - 1;
     calculateIncomes();
+}
+
+void World::saveState()
+{
+    QDate firstDate(1886,1,1);
+    history.append(new HistoryState(firstDate.addMonths(history.size())));
 }

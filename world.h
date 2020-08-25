@@ -7,6 +7,8 @@
 #include <QList>
 #include <QJsonObject>
 
+class HistoryState;
+
 class World
 {
 public:
@@ -14,8 +16,8 @@ public:
 
     QList<Country*> GetCountriesForPlayer(Player *player);
     QList<Country*> countries;
-
     QList<Player*> players;
+    QList<HistoryState*> history;
 
     Player *getPlayerByName(QString name);
 
@@ -25,6 +27,7 @@ public:
     void read(const QJsonObject &json);
     void ResearchTech(int player, Player::Technology techno, int level, bool researched);
 
+    void saveState();
 private:
     World();
     ~World();

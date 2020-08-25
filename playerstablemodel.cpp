@@ -55,7 +55,7 @@ QVariant PlayersTableModel::data(const QModelIndex &index, int role) const
         case (int)Columns::Bank:
             return player->bank;
         case (int)Columns::Resources:
-            return player->incomeFromResources();
+            return QString::number(player->resourceTokens()) + " (" + QString::number(player->incomeFromResources()) + ")";
         case (int)Columns::Blockades:
             return player->blockades();
         case (int)Columns::Cities:

@@ -23,7 +23,8 @@ void Country::write(QJsonObject& json) const
 void Country::read(const QJsonObject &json)
 {
     if (json.contains("name") && json["name"].isString())
-        name = json["name"].toString();
+        if(name != json["name"].toString())
+            return;
 
     if (json.contains("player") && json["player"].isString())
         player = World::GetInstance()->getPlayerByName(json["player"].toString());
@@ -38,7 +39,7 @@ void Country::read(const QJsonObject &json)
         school = json["school"].toBool();
 
     if (json.contains("fort") && json["fort"].isBool())
-        school = json["fort"].toBool();
+        fort = json["fort"].toBool();
 }
 
 BuildingPrimary Country::getBuildingType(QString build)
