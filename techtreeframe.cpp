@@ -3,6 +3,7 @@
 #include "world.h"
 
 #include <QLabel>
+#include <QPainter>
 
 TechTreeFrame::TechTreeFrame(QWidget *parent) :
     QFrame(parent),
@@ -64,6 +65,8 @@ TechTreeFrame::TechTreeFrame(QWidget *parent) :
 
     for(TechnologyFrame* techFrame : findChildren<TechnologyFrame*>())
         connect(techFrame, SIGNAL(researched(int, Player::Technology, int, bool)), this, SLOT(onResearch(int,Player::Technology,int,bool)));
+
+    arrow = new Arrow(ui->academy2, ui->academy3);
 }
 
 void TechTreeFrame::reset()
@@ -78,6 +81,12 @@ void TechTreeFrame::onResearch(int player, Player::Technology techno, int level,
 
     for(TechnologyFrame* techFrame : findChildren<TechnologyFrame*>())
         techFrame->updateStatus(player, techno, level, researched);
+}
+
+void TechTreeFrame::paintEvent(QPaintEvent* /*event*/)
+{
+    QPainter painter(this);
+    arrow->paint(&painter, this);
 }
 
 TechTreeFrame::~TechTreeFrame()

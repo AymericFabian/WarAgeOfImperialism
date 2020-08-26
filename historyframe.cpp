@@ -10,9 +10,11 @@ HistoryFrame::HistoryFrame(QWidget *parent) :
 
     countriesChart = new CountriesChart(this);
     incomeChart = new IncomeChart(this);
+    incomeTotalChart = new IncomeTotalChart(this);
 
     ui->tabCountries->layout()->addWidget(countriesChart);
     ui->tabIncome->layout()->addWidget(incomeChart);
+    ui->tabTotalIncome->layout()->addWidget(incomeTotalChart);
 
     reset();
 }
@@ -21,12 +23,14 @@ void HistoryFrame::addState(HistoryState* hs)
 {
     countriesChart->addState(hs);
     incomeChart->addState(hs);
+    incomeTotalChart->addState(hs);
 }
 
 void HistoryFrame::reset()
 {
     countriesChart->reset();
     incomeChart->reset();
+    incomeTotalChart->reset();
 
     for(HistoryState* hs : World::GetInstance()->history)
         addState(hs);

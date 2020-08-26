@@ -4,7 +4,7 @@
 IncomeChart::IncomeChart(QWidget *parent) : QChartView(parent)
 {
     incomeChart = new QChart();
-    incomeChart->setTitle("Countries in empire");
+    incomeChart->setTitle("Production Points");
 
     axisY = new QValueAxis();
     axisY->setTickCount(10);
@@ -22,27 +22,19 @@ IncomeChart::IncomeChart(QWidget *parent) : QChartView(parent)
     chart()->legend()->hide();
 }
 
-
 void IncomeChart::addState(HistoryState* hs)
 {
-//    int max = 0;
-//    for(HistoryState* hs : World::GetInstance()->history)
-//        for(HistoryState::PlayerState* ps : hs->playersState)
-//            if(ps->getIncome() > max)
-//                max = ps->getIncome();
-
-    for(int i=0; i<hs->playersState.size(); i++)
+    for(int i=1; i<hs->playersState.size(); i++)
     {
         HistoryState::PlayerState* ps = hs->playersState[i];
 
-        QLineSeries* line = (QLineSeries*)incomeChart->series()[i];
+        QLineSeries* line = (QLineSeries*)incomeChart->series()[i-1];
 
         line->append(hs->date.toMSecsSinceEpoch(), ps->getIncome());
 
         if(ps->getIncome() > axisY->max())
             axisY->setMax(ps->getIncome());
     }
-    //axisY->setRange(0, max);
 
     axisX->setTickCount(World::GetInstance()->history.count());
     axisX->setRange(World::GetInstance()->history[0]->date, hs->date);
@@ -51,12 +43,12 @@ void IncomeChart::addState(HistoryState* hs)
 void IncomeChart::reset()
 {
     incomeChart->removeAllSeries();
-    for(int i=0; i<World::GetInstance()->players.size(); i++)
+    for(int i=1; i<World::GetInstance()->players.size(); i++)
         incomeChart->addSeries(new QLineSeries());
 
     for(int i=0; i<incomeChart->series().size();i++)
     {
-        QPen pen(World::GetInstance()->players[i]->color);
+        QPen pen(World::GetInstance()->players[i+1]->color);
         pen.setWidth(2);
         ((QLineSeries*)incomeChart->series()[i])->setPen(pen);
     }
