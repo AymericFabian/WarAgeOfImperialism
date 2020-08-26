@@ -27,7 +27,7 @@ public:
     void read(const QJsonObject &json);
     void ResearchTech(int player, Player::Technology techno, int level, bool researched);
 
-    void saveState();
+    HistoryState* saveState();
 private:
     World();
     ~World();

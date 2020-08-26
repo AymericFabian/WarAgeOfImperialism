@@ -20,7 +20,6 @@ public:
 
 private:
     Ui::PlayersFrame *ui;
-    void init();
 
     PlayersTableModel* playersTableModel;
 };

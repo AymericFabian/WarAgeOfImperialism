@@ -12,8 +12,8 @@ void TechPlayerButton::init(Color color)
     this->color = color;
     QString colorName = colorNames[(int)color];
 
-    uncheckedIcon.addPixmap(QPixmap(":/root/techButton" + colorName + "Full.png"), QIcon::Normal);
-    uncheckedIcon.addPixmap(QPixmap(":/root/techButton" + colorName + "Full.png"), QIcon::Disabled);
+    uncheckedIcon.addPixmap(QPixmap(":/root/techButton" + colorName + "Empty.png"), QIcon::Normal);
+    uncheckedIcon.addPixmap(QPixmap(":/root/techButton" + colorName + "Empty.png"), QIcon::Disabled);
     checkedIcon.addPixmap(QPixmap(":/root/techButton" + colorName + "Full.png"), QIcon::Normal);
     checkedIcon.addPixmap(QPixmap(":/root/techButton" + colorName + "Full.png"), QIcon::Disabled);
     setIcon(uncheckedIcon);

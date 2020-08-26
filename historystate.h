@@ -9,6 +9,7 @@
 
 class HistoryState
 {
+public:
     class PlayerState
     {
     public:
@@ -30,12 +31,11 @@ class HistoryState
         QHash<BuildingPrimary, int> buildings;
     };
 
-public:
     HistoryState();
     HistoryState(QDate date);
     ~HistoryState();
 
-    QDate date;
+    QDateTime date;
     QList<PlayerState*> playersState;
 
     void write(QJsonObject &json) const;

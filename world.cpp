@@ -229,6 +229,8 @@ void World::read(const QJsonObject &json)
 
     for(HistoryState* hs : history)
         delete hs;
+    history.clear();
+
     if (json.contains("history") && json["history"].isArray()) {
         QJsonArray historyArray = json["history"].toArray();
         for (int histoIdx = 0; histoIdx < historyArray.size(); histoIdx++) {
@@ -293,13 +295,16 @@ void World::calculateIncomes()
             owner->income += 30;
     }
 
-    // TODO inflation
-
-    // TODO blockade round up income/2
+    double inflation = 1;
     for(Player* p : players)
-    {
-        p->income -= qMin(p->blockades() * 10, p->income/2);
-    }
+        if(p->technologies[Player::Technology::Inflation] + 1 > inflation)
+            inflation = p->technologies[Player::Technology::Inflation] + 1;
+
+    for(Player* p : players)
+        p->income = qRound(p->income / inflation);
+
+    for(Player* p : players)
+        p->income -= qRound((double)qMin(p->blockades() * 10, p->income/2));
 }
 
 QList<Country*> World::GetCountriesForPlayer(Player* player)
@@ -322,8 +327,10 @@ void World::ResearchTech(int player, Player::Technology techno, int level, bool 
     calculateIncomes();
 }
 
-void World::saveState()
+HistoryState* World::saveState()
 {
-    QDate firstDate(1886,1,1);
-    history.append(new HistoryState(firstDate.addMonths(history.size())));
+    QDate firstDate(1886,1,15);
+    HistoryState* hs = new HistoryState(firstDate.addMonths(history.size()));
+    history.append(hs);
+    return hs;
 }

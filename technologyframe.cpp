@@ -23,13 +23,20 @@ void TechnologyFrame::init(Player::Technology techno, int level)
     ui->toolButtonGray->init(TechPlayerButton::Color::Gray);
 
     for(TechPlayerButton* but : findChildren<TechPlayerButton*>())
+        connect(but, SIGNAL(toggled(bool)), this, SLOT(technoToggled(bool)));
+}
+
+void TechnologyFrame::reset()
+{
+    blockSignals(true);
+    for(TechPlayerButton* but : findChildren<TechPlayerButton*>())
     {
         if(World::GetInstance()->players.at((int)but->color + 1)->technologies[techno] >= level)
             but->setChecked(true);
         if(World::GetInstance()->players.at((int)but->color + 1)->technologies[techno] > level)
             but->setEnabled(false);
-        connect(but,      SIGNAL(toggled(bool)), this, SLOT(technoToggled(bool)));
     }
+    blockSignals(false);
 }
 
 void TechnologyFrame::technoToggled(bool)

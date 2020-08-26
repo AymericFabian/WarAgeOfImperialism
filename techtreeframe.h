@@ -16,6 +16,7 @@ public:
     explicit TechTreeFrame(QWidget *parent = nullptr);
     ~TechTreeFrame();
 
+    void reset();
 public slots:
     void onResearch(int player, Player::Technology techno, int level, bool researched);
 

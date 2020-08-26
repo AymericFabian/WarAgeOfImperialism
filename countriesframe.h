@@ -20,7 +20,6 @@ public:
 
 private:
     Ui::CountriesFrame *ui;
-    void init();
 
     CountriesTableModel* countriesTableModel;
 };

@@ -66,6 +66,12 @@ TechTreeFrame::TechTreeFrame(QWidget *parent) :
         connect(techFrame, SIGNAL(researched(int, Player::Technology, int, bool)), this, SLOT(onResearch(int,Player::Technology,int,bool)));
 }
 
+void TechTreeFrame::reset()
+{
+    for(TechnologyFrame* techFrame : findChildren<TechnologyFrame*>())
+        techFrame->reset();
+}
+
 void TechTreeFrame::onResearch(int player, Player::Technology techno, int level, bool researched)
 {
     World::GetInstance()->ResearchTech(player, techno, level, researched);

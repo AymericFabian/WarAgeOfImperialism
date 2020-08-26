@@ -11,12 +11,11 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    World::GetInstance();
-    filePath = "save.json";
-    loadGame();
-
     ui->setupUi(this);
     setWindowIcon(QIcon(":/root/cannon.png"));
+
+    filePath = "save.json";
+    loadGame();
 
     QString fileName = filePath.right(filePath.length() - filePath.lastIndexOf('/') - 1);
     fileName = fileName.left(fileName.lastIndexOf('.'));
@@ -72,6 +71,9 @@ void MainWindow::loadGame()
 
     World::GetInstance()->read(loadDoc.object());
 
+    ui->techTreeFrame->reset();
+    ui->historyFrame->reset();
+
     QString fileName = filePath.right(filePath.length() - filePath.lastIndexOf('/') - 1);
     fileName = fileName.left(fileName.lastIndexOf('.'));
     setWindowTitle("War! Age of Imperialism - " + fileName);
@@ -89,5 +91,5 @@ void MainWindow::renameGame()
 
 void MainWindow::saveState()
 {
-    World::GetInstance()->saveState();
+    ui->historyFrame->addState(World::GetInstance()->saveState());
 }

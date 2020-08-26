@@ -37,7 +37,7 @@ void HistoryState::write(QJsonObject &json) const
 void HistoryState::read(const QJsonObject &json)
 {
     if (json.contains("date") && json["date"].isString())
-        date = QDate::fromString(json["date"].toString(),"dd/MM/yyyy");
+        date = QDateTime::fromString(json["date"].toString(),"dd/MM/yyyy");
 
     if (json.contains("players") && json["players"].isArray())
     {

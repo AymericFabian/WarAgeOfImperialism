@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     buildingdelegate.cpp \
+    countrieschart.cpp \
     countriesframe.cpp \
     countriestablemodel.cpp \
     country.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
     diplomacytablemodel.cpp \
     historyframe.cpp \
     historystate.cpp \
+    incomechart.cpp \
     main.cpp \
     mainwindow.cpp \
     player.cpp \
@@ -37,6 +39,7 @@ SOURCES += \
 
 HEADERS += \
     buildingdelegate.h \
+    countrieschart.h \
     countriesframe.h \
     countriestablemodel.h \
     country.h \
@@ -44,6 +47,7 @@ HEADERS += \
     diplomacytablemodel.h \
     historyframe.h \
     historystate.h \
+    incomechart.h \
     mainwindow.h \
     player.h \
     playerdelegate.h \

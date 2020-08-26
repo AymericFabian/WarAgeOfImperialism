@@ -41,7 +41,7 @@
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="PlayersFrame" name="frame">
+         <widget class="PlayersFrame" name="playersFrame">
           <layout class="QGridLayout" name="gridLayout_3"/>
          </widget>
         </item>
@@ -68,7 +68,7 @@
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="CountriesFrame" name="frame_2">
+         <widget class="CountriesFrame" name="countriesFrame">
           <layout class="QGridLayout" name="gridLayout_5"/>
          </widget>
         </item>
@@ -95,7 +95,7 @@
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="DiplomacyFrame" name="frame_3"/>
+         <widget class="DiplomacyFrame" name="diplomacyFrame"/>
         </item>
        </layout>
       </widget>
@@ -165,7 +165,7 @@
                 <number>0</number>
                </property>
                <item row="0" column="0">
-                <widget class="TechTreeFrame" name="frame_5">
+                <widget class="TechTreeFrame" name="techTreeFrame">
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -204,7 +204,7 @@
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="HistoryFrame" name="frame_6"/>
+         <widget class="HistoryFrame" name="historyFrame"/>
         </item>
        </layout>
       </widget>

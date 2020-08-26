@@ -6,16 +6,12 @@ PlayersFrame::PlayersFrame(QWidget *parent) :
     ui(new Ui::PlayersFrame)
 {
     ui->setupUi(this);
-    init();
+
+    playersTableModel = new PlayersTableModel(this);
+    ui->tableView->setModel(playersTableModel);
 }
 
 PlayersFrame::~PlayersFrame()
 {
     delete ui;
-}
-
-void PlayersFrame::init()
-{
-    playersTableModel = new PlayersTableModel(this);
-    ui->tableView->setModel(playersTableModel);
 }

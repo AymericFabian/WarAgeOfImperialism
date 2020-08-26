@@ -20,6 +20,7 @@ public:
     void init(Player::Technology techno, int level);
 
     void updateStatus(int player, Player::Technology techno, int level, bool researched);
+    void reset();
 private:
     Ui::TechnologyFrame *ui;
 
