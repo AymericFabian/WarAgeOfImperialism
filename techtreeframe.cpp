@@ -88,7 +88,7 @@ TechTreeFrame::TechTreeFrame(QWidget *parent) :
     arrows << new Arrow(ui->artillery3,         ui->battleship3,            Arrow::Position::TopRightMid,   Arrow::Position::BotLeftMid);
 
     arrows << new Arrow(ui->government1,        ui->trade1,         Arrow::Position::Left,          Arrow::Position::BotRightMid);
-    arrows << new Arrow(ui->government2,        ui->trade2,         Arrow::Position::TopLeftMid,   Arrow::Position::BotRightMid);
+    arrows << new Arrow(ui->government2,        ui->trade2,         Arrow::Position::TopLeftMid,    Arrow::Position::BotRightMid);
     arrows << new Arrow(ui->government3,        ui->trade3,         Arrow::Position::Left,          Arrow::Position::BotRightMid);
 
     arrows << new Arrow(ui->economics2,         ui->government2,    Arrow::Position::TopRightMid,  Arrow::Position::LeftBotMid);
