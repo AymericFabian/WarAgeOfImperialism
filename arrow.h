@@ -9,7 +9,12 @@
 class Arrow
 {
 public:
-    Arrow(TechnologyFrame* startItem, TechnologyFrame* endItem);
+    enum class Position { TopLeft, TopLeftMid, Top, TopRightMid, TopRight,
+                          RightTopMid, Right, RightBotMid,
+                          BotRight, BotRightMid, Bot, BotLeftMid, BotLeft,
+                          LeftBotMid, Left, LeftTopMid };
+
+    Arrow(TechnologyFrame* startItem, TechnologyFrame* endItem, Position startPos, Position endPos);
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
@@ -20,16 +25,20 @@ public:
     QLineF line() const {return mLine;}
     QPen pen() const {return mPen;}
 
-    void paint(QPainter *painter, QWidget *target = nullptr);
+    void paint(QPainter *painter, QWidget *);
 
 private:
     TechnologyFrame *myStartItem;
     TechnologyFrame *myEndItem;
+    Position startPos;
+    Position endPos;
+
     QPolygonF arrowHead;
     QColor myColor = Qt::black;
 
     QPen mPen;
     QLineF mLine;
+    QPointF pixelPosition(TechnologyFrame *frame, Position pos);
 };
 
 #endif // ARROW_H

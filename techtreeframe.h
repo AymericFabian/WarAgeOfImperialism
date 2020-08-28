@@ -29,7 +29,7 @@ protected:
 private:
     Ui::TechTreeFrame *ui;
 
-    Arrow* arrow;
+    QList<Arrow*> arrows;
 };
 
 #endif // TECHTREEFRAME_H

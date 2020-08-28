@@ -2,8 +2,8 @@
 
 #include <QtMath>
 
-Arrow::Arrow(TechnologyFrame* startItem, TechnologyFrame* endItem)
-    : myStartItem(startItem), myEndItem(endItem)
+Arrow::Arrow(TechnologyFrame* startItem, TechnologyFrame* endItem, Position startPos, Position endPos)
+    : myStartItem(startItem), myEndItem(endItem), startPos(startPos), endPos(endPos)
 {
     mPen = QPen(myColor, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 }
@@ -18,43 +18,92 @@ QRectF Arrow::boundingRect() const
         .adjusted(-extra, -extra, extra, extra);
 }
 
-void Arrow::paint(QPainter *painter, QWidget* target)
+QPointF Arrow::pixelPosition(TechnologyFrame* frame, Position pos)
+{
+    QPointF position = frame->pos();
+
+    switch(pos)
+    {
+    case Position::TopLeft:
+        break;
+    case Position::TopLeftMid:
+        position.setX(frame->pos().x() + frame->width()/4);
+        break;
+    case Position::Top:
+        position.setX(frame->pos().x() + frame->width()/2);
+        break;
+    case Position::TopRightMid:
+        position.setX(frame->pos().x() + 3*frame->width()/4);
+        break;
+    case Position::TopRight:
+        position.setX(frame->pos().x() + frame->width());
+        break;
+    case Position::RightTopMid:
+        position.setX(frame->pos().x() + frame->width());
+        position.setY(frame->pos().y() + frame->height()/4);
+        break;
+    case Position::Right:
+        position.setX(frame->pos().x() + frame->width());
+        position.setY(frame->pos().y() + frame->height()/2);
+        break;
+    case Position::RightBotMid:
+        position.setX(frame->pos().x() + frame->width());
+        position.setY(frame->pos().y() + 3*frame->height()/4);
+        break;
+    case Position::BotRight:
+        position.setX(frame->pos().x() + frame->width());
+        position.setY(frame->pos().y() + frame->height());
+        break;
+    case Position::BotRightMid:
+        position.setX(frame->pos().x() + 3*frame->width()/4);
+        position.setY(frame->pos().y() + frame->height());
+        break;
+    case Position::Bot:
+        position.setX(frame->pos().x() + frame->width()/2);
+        position.setY(frame->pos().y() + frame->height());
+        break;
+    case Position::BotLeftMid:
+        position.setX(frame->pos().x() + frame->width()/4);
+        position.setY(frame->pos().y() + frame->height());
+        break;
+    case Position::BotLeft:
+        position.setY(frame->pos().y() + frame->height());
+        break;
+    case Position::LeftBotMid:
+        position.setY(frame->pos().y() + 3*frame->height()/4);
+        break;
+    case Position::Left:
+        position.setY(frame->pos().y() + frame->height()/2);
+        break;
+    case Position::LeftTopMid:
+        position.setY(frame->pos().y() + frame->height()/4);
+        break;
+    }
+
+    return position;
+}
+
+void Arrow::paint(QPainter *painter, QWidget* /*target*/)
 {
     QPen myPen = pen();
     myPen.setColor(myColor);
-    qreal arrowSize = 20;
+    qreal arrowSize = 15;
     painter->setPen(myPen);
     painter->setBrush(myColor);
-    QLineF centerLine(myStartItem->pos(), myEndItem->pos());
 
-    QPointF topleft = QPointF(myEndItem->pos().x() - myEndItem->size().width()/2, myEndItem->pos().y() - myEndItem->size().height()/2);
-    QPointF topright = QPointF(myEndItem->pos().x() + myEndItem->size().width()/2, myEndItem->pos().y() - myEndItem->size().height()/2);
-    QPointF botleft = QPointF(myEndItem->pos().x() - myEndItem->size().width()/2, myEndItem->pos().y() + myEndItem->size().height()/2);
-    QPointF botright = QPointF(myEndItem->pos().x() + myEndItem->size().width()/2, myEndItem->pos().y() + myEndItem->size().height()/2);
-    QPolygonF endPolygon({topleft, topright, botleft, botright});
+    painter->setRenderHint(QPainter::Antialiasing);
+    painter->setRenderHint(QPainter::HighQualityAntialiasing);
 
-    QPointF p1 = endPolygon.first() + myEndItem->pos();
-    QPointF intersectPoint;
-    for (int i = 1; i < endPolygon.count(); ++i) {
-        QPointF p2 = endPolygon.at(i) + myEndItem->pos();
-        QLineF polyLine = QLineF(p1, p2);
-        QLineF::IntersectionType intersectionType =
-            polyLine.intersects(centerLine, &intersectPoint);
-        if (intersectionType == QLineF::BoundedIntersection)
-            break;
-        p1 = p2;
-    }
-
-    mLine = QLineF(intersectPoint, myStartItem->pos());
+    mLine = QLineF(pixelPosition(endItem(), endPos), pixelPosition(startItem(), startPos));
     double angle = atan2(-line().dy(), line().dx());
 
-   QPointF arrowP1 = line().p1() + QPointF(sin(angle + M_PI / 3) * arrowSize,
-                                   cos(angle + M_PI / 3) * arrowSize);
-   QPointF arrowP2 = line().p1() + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize,
-                                   cos(angle + M_PI - M_PI / 3) * arrowSize);
+    QPointF arrowP1 = line().p1() + QPointF(sin(angle + M_PI / 2.5) * arrowSize,
+                                            cos(angle + M_PI / 2.5) * arrowSize);
+    QPointF arrowP2 = line().p1() + QPointF(sin(angle + M_PI - M_PI / 2.5) * arrowSize,
+                                            cos(angle + M_PI - M_PI / 2.5) * arrowSize);
 
-   arrowHead.clear();
-   arrowHead << line().p1() << arrowP1 << arrowP2;
-   painter->drawLine(line());
-   painter->drawPolygon(arrowHead);
+    arrowHead.clear();
+    arrowHead << line().p1() << arrowP1 << arrowP2;
+    painter->drawLine(line());
+    painter->drawPolygon(arrowHead);
 }
