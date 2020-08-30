@@ -220,6 +220,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="deleteStateButton">
+        <property name="text">
+         <string>Delete last history state</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>

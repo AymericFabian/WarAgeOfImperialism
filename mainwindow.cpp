@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->loadButton, SIGNAL(released()), this, SLOT(loadGameFromFile()));
     connect(ui->saveAsButton, SIGNAL(released()), this, SLOT(renameGame()));
     connect(ui->saveStateButton, SIGNAL(released()), this, SLOT(saveState()));
+    connect(ui->deleteStateButton, SIGNAL(released()), this, SLOT(deleteState()));
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(saveGame()));
@@ -92,4 +93,9 @@ void MainWindow::renameGame()
 void MainWindow::saveState()
 {
     ui->historyFrame->addState(World::GetInstance()->saveState());
+}
+
+void MainWindow::deleteState()
+{
+    ui->historyFrame->deleteState();
 }

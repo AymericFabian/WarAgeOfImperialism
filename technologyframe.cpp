@@ -47,7 +47,7 @@ void TechnologyFrame::technoToggled(bool)
 
 void TechnologyFrame::updateStatus(int player, Player::Technology techno, int level, bool researched)
 {
-    if(this->techno == techno && level == this->level + 1)
+    if(this->techno == techno && level > this->level)
         for(TechPlayerButton* but : findChildren<TechPlayerButton*>())
             if((int)but->color == player - 1)
                 but->setEnabled(!researched);

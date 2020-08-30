@@ -26,6 +26,12 @@ void HistoryFrame::addState(HistoryState* hs)
     incomeTotalChart->addState(hs);
 }
 
+void HistoryFrame::deleteState()
+{
+    World::GetInstance()->deleteState();
+    reset();
+}
+
 void HistoryFrame::reset()
 {
     countriesChart->reset();

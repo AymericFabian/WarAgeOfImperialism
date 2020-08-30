@@ -21,6 +21,7 @@ public:
     ~HistoryFrame();
 
     void addState(HistoryState *hs);
+    void deleteState();
     void reset();
 
 private:

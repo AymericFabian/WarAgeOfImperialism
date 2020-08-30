@@ -334,3 +334,12 @@ HistoryState* World::saveState()
     history.append(hs);
     return hs;
 }
+
+void World::deleteState()
+{
+    if(history.empty()) return;
+
+    HistoryState* hs = history.last();
+    history.removeLast();
+    delete hs;
+}

@@ -22,7 +22,6 @@ CountriesChart::CountriesChart(QWidget *parent) : QChartView(parent)
     chart()->legend()->hide();
 }
 
-
 void CountriesChart::addState(HistoryState* hs)
 {
     int currentCountryCount = 0;

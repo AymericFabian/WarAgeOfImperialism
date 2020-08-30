@@ -21,6 +21,7 @@ public slots:
     void loadGame();
     void renameGame();
     void saveState();
+    void deleteState();
 
 private:
     Ui::MainWindow *ui;

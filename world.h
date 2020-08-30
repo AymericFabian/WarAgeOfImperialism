@@ -28,6 +28,8 @@ public:
     void ResearchTech(int player, Player::Technology techno, int level, bool researched);
 
     HistoryState* saveState();
+    void deleteState();
+
 private:
     World();
     ~World();

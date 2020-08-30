@@ -9,6 +9,7 @@ PlayersFrame::PlayersFrame(QWidget *parent) :
 
     playersTableModel = new PlayersTableModel(this);
     ui->tableView->setModel(playersTableModel);
+    ui->tableView->setItemDelegateForColumn(0, new PlayersFrame::PlayerDelegate(this));
 }
 
 PlayersFrame::~PlayersFrame()

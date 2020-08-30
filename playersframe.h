@@ -4,6 +4,9 @@
 #include <QFrame>
 #include <QTableView>
 
+#include <QStyledItemDelegate>
+#include <QLineEdit>
+
 #include "playerstablemodel.h"
 
 namespace Ui {
@@ -22,6 +25,18 @@ private:
     Ui::PlayersFrame *ui;
 
     PlayersTableModel* playersTableModel;
+
+    class PlayerDelegate : public QStyledItemDelegate
+    {
+    public:
+        PlayerDelegate(QObject* parent = nullptr) : QStyledItemDelegate(parent) {}
+        void setEditorData(QWidget *editor, const QModelIndex &index) const
+        {
+            QString value = index.model()->data(index, Qt::DisplayRole).toString();
+            QLineEdit* lineEdit = qobject_cast<QLineEdit*>(editor);
+            lineEdit->setText(value);
+        }
+    };
 };
 
 #endif // PLAYERSFRAME_H
