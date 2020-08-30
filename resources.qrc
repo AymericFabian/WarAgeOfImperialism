@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/root">
         <file>cannon.png</file>
-        <file>old_paper.png</file>
         <file>techButtonRedEmpty.png</file>
         <file>techButtonRedFull.png</file>
         <file>techButtonGrayEmpty.png</file>
@@ -14,5 +13,6 @@
         <file>techButtonYellowFull.png</file>
         <file>techButtonBlueEmpty.png</file>
         <file>techButtonBlueFull.png</file>
+        <file>test.jpeg</file>
     </qresource>
 </RCC>

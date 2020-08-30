@@ -11,7 +11,7 @@ TechTreeFrame::TechTreeFrame(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setStyleSheet("background-image:url(:/root/old_paper.png); background-position: top left;" );
+    setStyleSheet("background-image:url(:/root/test.jpeg); background-position: top left;" );
 
     ui->academy1->init(Player::Technology::MilitaryAcademy, 1);
     ui->academy2->init(Player::Technology::MilitaryAcademy, 2);
