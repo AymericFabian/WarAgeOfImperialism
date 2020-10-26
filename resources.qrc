@@ -14,5 +14,11 @@
         <file>techButtonBlueEmpty.png</file>
         <file>techButtonBlueFull.png</file>
         <file>test.jpeg</file>
+        <file>city.png</file>
+        <file>factory.png</file>
+        <file>fort.png</file>
+        <file>port.png</file>
+        <file>railroad.png</file>
+        <file>school.png</file>
     </qresource>
 </RCC>

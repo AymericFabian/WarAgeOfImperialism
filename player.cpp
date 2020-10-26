@@ -85,19 +85,12 @@ void Player::setBlockades(int b)
 int Player::buildings(BuildingPrimary type)
 {
     QList<Country*> countries = World::GetInstance()->GetCountriesForPlayer(this);
+    if(type == BuildingPrimary::School)
+        return std::count_if(countries.begin(), countries.end(), [](const Country* c) { return c->hasSchool(); });
+    if(type == BuildingPrimary::Fort)
+        return std::count_if(countries.begin(), countries.end(), [](const Country* c) { return c->hasFort(); });
+
     return std::count_if(countries.begin(), countries.end(), [type](const Country* c) { return c->getBuildingPrim() == type; });
-}
-
-int Player::schools()
-{
-    QList<Country*> countries = World::GetInstance()->GetCountriesForPlayer(this);
-    return std::count_if(countries.begin(), countries.end(), [](const Country* c) { return c->hasSchool(); });
-}
-
-int Player::forts()
-{
-    QList<Country*> countries = World::GetInstance()->GetCountriesForPlayer(this);
-    return std::count_if(countries.begin(), countries.end(), [](const Country* c) { return c->hasFort(); });
 }
 
 int Player::resourceTokens()

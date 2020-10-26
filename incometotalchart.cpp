@@ -35,7 +35,7 @@ void IncomeTotalChart::addState(HistoryState* hs)
             axisY->setMax(currentTotal + ps->getIncome());
     }
 
-    axisX->append(hs->date.toString("MMM yyyy"));
+    axisX->append(hs->date.toString("MMM"));
 }
 
 void IncomeTotalChart::reset()

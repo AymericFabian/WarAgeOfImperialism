@@ -67,9 +67,9 @@ QVariant PlayersTableModel::data(const QModelIndex &index, int role) const
         case (int)Columns::Ports:
             return QString::number(player->buildings(BuildingPrimary::Port)) + " (" + QString::number(player->incomeFromBuildings(BuildingPrimary::Port)) + ")";
         case (int)Columns::Schools:
-            return player->schools();
+            return player->buildings(BuildingPrimary::School);
         case (int)Columns::Forts:
-            return player->forts();
+            return player->buildings(BuildingPrimary::Fort);
         }
     case Qt::ForegroundRole:
         if(player->color.red() + player->color.green() + player->color.blue() < 383)

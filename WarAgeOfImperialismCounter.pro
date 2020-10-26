@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     arrow.cpp \
     buildingdelegate.cpp \
+    buildingschart.cpp \
     countrieschart.cpp \
     countriesframe.cpp \
     countriestablemodel.cpp \
@@ -42,6 +43,7 @@ SOURCES += \
 HEADERS += \
     arrow.h \
     buildingdelegate.h \
+    buildingschart.h \
     countrieschart.h \
     countriesframe.h \
     countriestablemodel.h \

@@ -64,7 +64,7 @@ HistoryState::PlayerState::PlayerState(Player* player)
      for (int i=0; i<=(int)Player::Technology::Cavalry; i++)
          researches += player->technologies[(Player::Technology)i];
 
-     for (int i=0; i<=(int)BuildingPrimary::Railroad; i++)
+     for (int i=0; i<=(int)BuildingPrimary::Fort; i++)
          buildings[(BuildingPrimary)i] = player->buildings((BuildingPrimary)i);
 }
 
@@ -72,7 +72,7 @@ int HistoryState::PlayerState::getAllBuildings()
 {
     int total = 0;
 
-    for (int i=0; i<=(int)BuildingPrimary::Railroad; i++)
+    for (int i=0; i<=(int)BuildingPrimary::Fort; i++)
         total += buildings[(BuildingPrimary)i];
 
     return total;
@@ -85,7 +85,7 @@ void HistoryState::PlayerState::write(QJsonObject &json) const
     json["researches"] = researches;
 
     QJsonArray buildingsJson;
-    for (int i=0; i<=(int)BuildingPrimary::Railroad; i++)
+    for (int i=0; i<=(int)BuildingPrimary::Fort; i++)
         buildingsJson.append(buildings[(BuildingPrimary)i]);
     json["buildings"] = buildingsJson;
 }

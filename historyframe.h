@@ -7,6 +7,7 @@
 #include "countrieschart.h"
 #include "incomechart.h"
 #include "incometotalchart.h"
+#include "buildingschart.h"
 
 namespace Ui {
 class HistoryFrame;
@@ -30,6 +31,7 @@ private:
     CountriesChart* countriesChart;
     IncomeChart* incomeChart;
     IncomeTotalChart* incomeTotalChart;
+    BuildingsChart* buildingsChart;
 };
 
 #endif // HISTORYFRAME_H

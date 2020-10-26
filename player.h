@@ -25,8 +25,6 @@ public:
     void setBlockades(int b);
 
     int blockades() { return blockadesCount; }
-    int schools();
-    int forts();
     int buildings(BuildingPrimary type);
     int incomeFromBuildings(QList<Country *> countries);
     int incomeFromBuildings(BuildingPrimary type);

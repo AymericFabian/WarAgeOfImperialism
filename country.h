@@ -7,7 +7,7 @@
 
 class Player;
 
-enum class BuildingPrimary { None, City, Factory, Port, Railroad };
+enum class BuildingPrimary { None, City, Factory, Port, Railroad, School, Fort };
 enum class Continent { Europe, CenterAsia, EastAsia, Oceania, MiddleEast, Africa };
 
 inline uint qHash(BuildingPrimary key, uint seed) { return ::qHash(static_cast<int>(key), seed); }
