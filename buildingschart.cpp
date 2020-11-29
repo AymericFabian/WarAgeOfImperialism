@@ -40,6 +40,12 @@ void BuildingsChart::addState(HistoryState* hs)
     axisX->append(hs->date.toString("MMM yyyy"));
 }
 
+void BuildingsChart::resizeEvent(QResizeEvent* event)
+{
+    QChartView::resizeEvent(event);
+    //axisX->setTickCount(qMin((int)event->size().width() / 80, World::GetInstance()->history.count()));
+}
+
 void BuildingsChart::reset()
 {
     barSeries->clear();

@@ -13,6 +13,9 @@ public:
     void addState(HistoryState *hs);
     void reset();
 
+protected:
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+
 private:
     QChart *countriesChart;
 

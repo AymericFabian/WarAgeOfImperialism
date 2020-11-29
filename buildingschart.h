@@ -17,6 +17,9 @@ public:
     void setBuildingTypeSchool();
     void setBuildingTypeFort();
 
+protected:
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+
 private:
     QChart *buildingsChart;
     QStackedBarSeries* barSeries;

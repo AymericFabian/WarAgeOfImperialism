@@ -40,6 +40,12 @@ void CountriesChart::addState(HistoryState* hs)
     axisX->setRange(World::GetInstance()->history[0]->date, hs->date);
 }
 
+void CountriesChart::resizeEvent(QResizeEvent* event)
+{
+    QChartView::resizeEvent(event);
+    axisX->setTickCount(qMin((int)event->size().width() / 80, World::GetInstance()->history.count()));
+}
+
 void CountriesChart::reset()
 {
     countriesChart->removeAllSeries();

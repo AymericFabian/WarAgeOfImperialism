@@ -31,7 +31,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "C:\Users\af_40\Documents\build-WarAgeOfImperialismCounter-Desktop_Qt_5_15_0_MSVC2019_64bit-Release\release\WarAgeOfImperialismCounter.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\af_40\Documents\build-WarAgeOfImperialismCounter-Desktop_Qt_5_15_0_MSVC2019_64bit-Release\release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\af_40\Documents\build-WarAgeOfImperialismCounter-Desktop_Qt_5_15_0_MSVC2019_64bit-Release\release\*.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

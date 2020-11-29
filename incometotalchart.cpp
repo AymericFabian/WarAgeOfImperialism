@@ -38,6 +38,12 @@ void IncomeTotalChart::addState(HistoryState* hs)
     axisX->append(hs->date.toString("MMM"));
 }
 
+void IncomeTotalChart::resizeEvent(QResizeEvent* event)
+{
+    QChartView::resizeEvent(event);
+    //axisX->setTickCount(qMin((int)event->size().width() / 80, World::GetInstance()->history.count()));
+}
+
 void IncomeTotalChart::reset()
 {
     incomeChart->removeAllSeries();

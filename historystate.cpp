@@ -104,7 +104,7 @@ void HistoryState::PlayerState::read(const QJsonObject &json)
     if (json.contains("buildings") && json["buildings"].isArray())
     {
         QJsonArray array = json["buildings"].toArray();
-        for (int i=0; i<=(int)BuildingPrimary::Railroad; i++)
+        for (int i=0; i<=(int)BuildingPrimary::Fort; i++)
             buildings[(BuildingPrimary)i] = array[i].toInt();
     }
 }

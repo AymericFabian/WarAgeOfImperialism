@@ -36,8 +36,14 @@ void IncomeChart::addState(HistoryState* hs)
             axisY->setMax(ps->getIncome());
     }
 
-    axisX->setTickCount(World::GetInstance()->history.count());
+    axisX->setTickCount(qMin((int)incomeChart->size().width() / 200, World::GetInstance()->history.count()));
     axisX->setRange(World::GetInstance()->history[0]->date, hs->date);
+}
+
+void IncomeChart::resizeEvent(QResizeEvent* event)
+{
+    QChartView::resizeEvent(event);
+    axisX->setTickCount(qMin((int)event->size().width() / 80, World::GetInstance()->history.count()));
 }
 
 void IncomeChart::reset()
